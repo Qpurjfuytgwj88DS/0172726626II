@@ -12,18 +12,18 @@ local InterfaceManager = loadstring(game:HttpGet(
 local Window = Fluent:CreateWindow({ Title = "GreenX Hub Update 1.26", SubTitle = "Owner: BreakFast", TabWidth = 160, Size = UDim2.fromOffset(530, 360), Acrylic = false, Theme = "Darker", MinimizeKey = Enum.KeyCode.End })
 
 local Tabs = {
-    Main = Window:AddTab({ Title = "Main", Icon = "rbxassetid://10723407389" }),
-    Sub = Window:AddTab({ Title = "Sub Farm", Icon = "rbxassetid://10723405360" }),
-    SeaE = Window:AddTab({ Title = "Sea Event", Icon = "droplet" }),
-    Sh = Window:AddTab({ Title = "Store-Store", Icon = "rbxassetid://10734952479" }),    
-    Mas = Window:AddTab({ Title = "Mastery Farm", Icon = "rbxassetid://10734984606" }),    
-    Settings = Window:AddTab({ Title = "Settings", Icon = "rbxassetid://10734950309" }),
-    Race = Window:AddTab({ Title = "Update V4", Icon = "rbxassetid://10747372167" }),
-    Player = Window:AddTab({ Title = "Player", Icon = "box" }),
-    Raid = Window:AddTab({ Title = "Raids", Icon = "rbxassetid://10723345749" }),
-    Travel = Window:AddTab({ Title = "Travel", Icon = "map-pin" }),
-    Fun = Window:AddTab({ Title = "Severs Status", Icon = "arrow-up-down" }),
-    Fruit = Window:AddTab({ Title = "Devils Fruits", Icon = "flame" }),
+    Main = Window:AddTab({ Title = "Main", Icon = "" }),
+    Sub = Window:AddTab({ Title = "Sub Farm", Icon = "" }),
+    SeaE = Window:AddTab({ Title = "Sea Event", Icon = "" }),
+    Sh = Window:AddTab({ Title = "Store-Store", Icon = "" }),    
+    Mas = Window:AddTab({ Title = "Mastery Farm", Icon = "" }),    
+    Settings = Window:AddTab({ Title = "Settings", Icon = "" }),
+    Race = Window:AddTab({ Title = "Update V4", Icon = "" }),
+    Player = Window:AddTab({ Title = "Player", Icon = "" }),
+    Raid = Window:AddTab({ Title = "Raids", Icon = "" }),
+    Travel = Window:AddTab({ Title = "Travel", Icon = "" }),
+    Fun = Window:AddTab({ Title = "Severs Status", Icon = "" }),
+    Fruit = Window:AddTab({ Title = "Devils Fruits", Icon = "" }),
 }
 
 local Options = Fluent.Options
@@ -1197,6 +1197,37 @@ function TP1(Pos)
     topos(Pos)
 end
 
+    function TweenShip(CFgo)
+        local tween_s = game:service"TweenService"
+        local info = TweenInfo.new((game:GetService("Workspace").Boats.MarineBrigade.VehicleSeat.CFrame.Position - CFgo.Position).Magnitude/300, Enum.EasingStyle.Linear)
+        tween = tween_s:Create(game:GetService("Workspace").Boats.MarineBrigade.VehicleSeat, info, {CFrame = CFgo})
+        tween:Play()
+    
+        local tweenfunc = {}
+    
+        function tweenfunc:Stop()
+            tween:Cancel()
+        end
+    
+        return tweenfunc
+    end
+    
+        function TweenBoat(CFgo)
+        if game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health <= 0 or not game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid") then tween:Cancel() repeat wait() until game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid") and game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Health > 0 wait(7) return end
+        local tween_s = game:service"TweenService"
+        local info = TweenInfo.new((game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart.Position - CFgo.Position).Magnitude/325, Enum.EasingStyle.Linear)
+        tween = tween_s:Create(game.Players.LocalPlayer.Character["HumanoidRootPart"], info, {CFrame = CFgo})
+        tween:Play()
+    
+        local tweenfunc = {}
+    
+        function tweenfunc:Stop()
+            tween:Cancel()
+        end
+    
+        return tweenfunc
+    end
+    
 function fastpos(Pos)
     Distance = (Pos.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
     Speed = 1000
@@ -1576,9 +1607,9 @@ spawn(function()
                 _G.AutoFarmBossHallow or
                 _G.AutoFarmPrince or
                 _G.SailBoat or
-                _G.AutoKillShark or
-                _G.AutoKillTerrorshark or
-                _G.AutoKillPiranha or
+                _G.AutoShark or
+                _G.AutoTerrorshark or
+                _G.farmpiranya or
                 _G.Auto_Bone or
                 _G.AutoMaterial or
                 _G.Auto_Saber or
@@ -1607,6 +1638,7 @@ spawn(function()
                 _G.AutoSecSea or
                 _G.AutoElitehunter or
                 _G.AutoDarkDagger or
+                _G.TrialV4 or
                 Open_Color_Haki or
                 _G.AutoObservation or
                 _G.AutoThirdSea or
@@ -2004,10 +2036,10 @@ end);
             end
         end) 
                   
-    AutoFarmDoughBoss = Tabs.Main:AddToggle("AutoFarmDoughBossFlag", { Title = "Auto Farm Cake Prince + Kill", Description = "Kill 500 Mob in cake land island else have Dough Boss and Auto kill", Default = false })
+    AutoFarmDoughBoss = Tabs.Main:AddToggle("AutoFarmDoughBossFlag", { Title = "Auto Farm Cake Prince + Kill Dough Boss", Description = "Kill 500 Mob in cake land island else have Dough Boss and Auto kill", Default = false })
     AutoFarmDoughBoss:OnChanged(function(Value)
         _G.AutoFarmPrince = Value
-        DamageAura = Value
+        DamageAura = Value       
         StopTween(_G.AutoFarmPrince)
     end)
     Options.AutoFarmDoughBossFlag:SetValue(false)
@@ -2023,6 +2055,7 @@ spawn(function()
 							if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
 								repeat
 									task.wait();
+									Fast_Attack = true
 									NeedAttacking = true
 									DamageAura = true
 									AutoHaki();									
@@ -3620,84 +3653,165 @@ end
         Content = "will be full when updated"
    })
 
-local ListSeaZone = {
-	"Zone 1",
-	"Zone 2",
-	"Zone 3",
-	"Zone 4",
-	"Zone 5",
-	"Zone 6",
-	"Infinite"
-};
+    local SetSpeedBoatSlider = Tabs.SeaE:AddSlider("SliderSpeedBoat", {
+	Title = "Set Speed boat",
+	Description = "",
+	Default = 300,
+	Min = 0,
+	Max = 1000,
+	Rounding = 1,
+	Callback = function(value)
+		SetSpeedBoat = value
+	end
+})
 
-    ZoneListDrop = Tabs.SeaE:AddDropdown("ZoneListDrop", {
-        Title = "Select Zone",
-        Values = ListSeaZone,
-        Multi = false,
-        Default = 1,
-    })
-    ZoneListDrop:SetValue("Infinite Zone")
-    ZoneListDrop:OnChanged(function(Value)
-        _G.SelectedZone = Value
+SetSpeedBoatSlider:OnChanged(function(value)
+	SetSpeedBoat = value
+end)
+
+SetSpeedBoatSlider:SetValue(300)
+
+local SpeedBoatToggle = Tabs.SeaE:AddToggle("SpeedBoat_Toggle", {Title = "Auto Speed Boat",Description = "", Default = false })
+Options.SpeedBoat_Toggle:SetValue(false)
+
+SpeedBoatToggle:OnChanged(function(value)
+	_G.SpeedBoat = value
+end)
+
+game:GetService("RunService").RenderStepped:Connect(function()
+    if _G.SpeedBoat then
+        for i, v in pairs(game:GetService("Workspace").Boats:GetChildren()) do
+            if game:GetService("Players").LocalPlayer.Character.Humanoid.Sit then
+                v:FindFirstChild("VehicleSeat").MaxSpeed = SetSpeedBoat
+            end
+        end
+    end
+end)
+
+	
+    local ToggleTerrorshark = Tabs.SeaE:AddToggle("ToggleTerrorshark", {Title = "Auto Kill Terrorshark", Description = "[Beta]", Default = false })
+
+    ToggleTerrorshark:OnChanged(function(Value)
+        _G.AutoTerrorshark = Value
+        StopTween(_G.AutoTerrorshark)
+    end)
+    Options.ToggleTerrorshark:SetValue(false)
+     spawn(function()
+         while wait() do
+             if _G.AutoTerrorshark then
+                 pcall(function()
+                     if game:GetService("Workspace").Enemies:FindFirstChild("Terrorshark") then
+                         for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                            if v.Name == "Terrorshark" then
+                                 if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+                                     repeat task.wait()
+                                         NeedAttacking = true
+                                         DamageAura = true
+                                         Fast_Attack = true
+                                         Click()
+                                         AutoHaki()
+                                         EquipWeapon(_G.SelectWeapon)
+                                         v.HumanoidRootPart.CanCollide = false
+                                         v.Humanoid.WalkSpeed = 0
+                                         v.HumanoidRootPart.Size = Vector3.new(60,60,60)
+                                         if game:GetService("Workspace")["_WorldOrigin"]:FindFirstChild("Typhoon Splash") then
+                                            topos(v.HumanoidRootPart.CFrame * CFrame.new(0, 180, 0)); 
+                                        else
+                                            topos(v.HumanoidRootPart.CFrame * CFrame.new(0, 60, 0));     
+                                        end                                                                                                                                                                                                                                       
+                                     until not  _G.AutoTerrorshark or not v.Parent or v.Humanoid.Health <= 0
+                                 end
+                             end
+                         end
+                     end
+                 end)
+             end
+         end
+     end)
+
+
+    local TogglePiranha = Tabs.SeaE:AddToggle("TogglePiranha", {Title = "Auto Kill Piranha",Description = "[Beta]", Default = false })
+
+    TogglePiranha:OnChanged(function(Value)
+        _G.farmpiranya = Value
+        StopTween(_G.farmpiranya)
+    end)
+    Options.TogglePiranha:SetValue(false)
+
+    spawn(function()
+         while wait() do
+             pcall(function()
+                 if _G.farmpiranya then
+                     for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                         if v.Name == "Piranha" then
+                             if (v.HumanoidRootPart.CFrame.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Position).Magnitude <= 500 then
+                             if game:GetService("Workspace").Enemies:FindFirstChild(v.Name) then
+                             if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+                                 repeat task.wait()
+                                     DamageAura = true
+                                     NeedAttacking = true
+                                     AutoHaki()
+                                     EquipWeapon(_G.SelectWeapon)
+                                     v.HumanoidRootPart.Size = Vector3.new(50,50,50)
+                                     v.HumanoidRootPart.CanCollide = false
+                                     topos(v.HumanoidRootPart.CFrame * Pos)                                     
+                                 until not _G.farmpiranya or not v.Parent or v.Humanoid.Health <= 0
+                             end
+                             end
+                             end
+                         end
+                     end
+                 end
+             end)
+         end
     end)
 
-spawn(function()
-	pcall(function()
-		while wait() do
-			if _G.SelectedZone == "Zone 1" then
-				CFrameSelectedZone = CFrame.new(-21998.375, 30.0006084, -682.309143, 0.120013528, 0.00690158736, 0.99274826, -0.0574118942, 0.998350561, -0.000000000236509201, -0.991110802, -0.0569955558, 0.120211802);
-			elseif _G.SelectedZone == "Zone 2" then
-				CFrameSelectedZone = CFrame.new(-26779.5215, 30.0005474, -822.858032, 0.307457417, 0.019647358, 0.951358974, -0.0637726262, 0.997964442, -0.000000000415334017, -0.949422479, -0.0606706589, 0.308084518);
-			elseif _G.SelectedZone == "Zone 3" then
-				CFrameSelectedZone = CFrame.new(-31171.957, 30.0001011, -2256.93774, 0.37637493, 0.0150483791, 0.926345229, -0.0399504974, 0.999201655, 0.0000000000270896673, -0.925605655, -0.0370079502, 0.376675636);
-			elseif _G.SelectedZone == "Zone 4" then
-				CFrameSelectedZone = CFrame.new(-34054.6875, 30.2187767, -2560.12012, 0.0935864747, -0.00122954219, 0.995610416, 0.0624034069, 0.998040259, -0.00463332096, -0.993653536, 0.062563099, 0.0934797972);
-			elseif _G.SelectedZone == "Zone 5" then
-				CFrameSelectedZone = CFrame.new(-38887.5547, 30.0004578, -2162.99023, -0.188895494, -0.00704088295, 0.981971979, -0.0372481011, 0.999306023, -0.00000000139882339, -0.981290519, -0.0365765914, -0.189026669);
-			elseif _G.SelectedZone == "Zone 6" then
-				CFrameSelectedZone = CFrame.new(-44541.7617, 30.0003204, -1244.8584, -0.0844199061, -0.00553312758, 0.9964149, -0.0654025897, 0.997858942, 0.000000000202319411, -0.99428153, -0.0651681125, -0.0846010372);
-			elseif _G.SelectedZone == "Infinite" then
-				CFrameSelectedZone = CFrame.new(-148073.359, 8.99999523, 7721.05078, -0.0825930536, -0.00000154416148, 0.996583343, -0.000018696026, 1, -0.000000000000391858095, -0.996583343, -0.0000186321486, -0.0825930536);
-			end;
-		end;
-	end);
-end);
-
--- met
-local ListSeaBoat = {
-	"Guardian",
-	"PirateGrandBrigade",
-	"MarineGrandBrigade",
-	"PirateBrigade",
-	"MarineBrigade",
-	"PirateSloop",
-	"MarineSloop",
-	"BeastHunter"
-};
 
 
-    BoatListDrop = Tabs.SeaE:AddDropdown("BoatListDrop", {
-        Title = "Select Boat",
-        Values = ListSeaBoat,
-        Multi = false,
-        Default = 1,
-    })
-    BoatListDrop:SetValue("PirateGrandBrigade")
-    BoatListDrop:OnChanged(function(Value)
-        _G.SelectedBoat = Value
+    local ToggleShark = Tabs.SeaE:AddToggle("ToggleShark", {Title = "Auto Kill Shark",Description = "[Beta]", Default = false })
+    ToggleShark:OnChanged(function(Value)
+        _G.AutoShark = Value
+        StopTween(_G.AutoShark)
     end)
-
-
-
+    Options.ToggleShark:SetValue(false)
+    spawn(function()
+         while wait() do
+             pcall(function()
+                 if _G.AutoShark then
+                    for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                         if v.Name == "Shark" then
+                             if (v.HumanoidRootPart.CFrame.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Position).Magnitude <= 500 then
+                             if game:GetService("Workspace").Enemies:FindFirstChild(v.Name) then
+                             if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+                                 repeat task.wait()
+                                     DamageAura = true
+                                     NeedAttacking = true
+                                     AutoHaki()
+                                     EquipWeapon(_G.SelectWeapon)
+                                     v.HumanoidRootPart.Size = Vector3.new(50,50,50)
+                                     v.HumanoidRootPart.CanCollide = false
+                                     topos(v.HumanoidRootPart.CFrame * Pos)
+                                     NeedAttacking = true                                  
+                                 until not _G.AutoShark or not v.Parent or v.Humanoid.Health <= 0
+                             end
+                             end
+                             end
+                         end
+                     end
+                 end
+             end)
+         end
+    end)
+    
 
     PlayerFarmDistance = Tabs.Settings:AddDropdown("PlayerFarmDistance", {
         Title = "Player Farm Distance",
-        Values = { "0", "10", "20", "30" },
+        Values = { "0", "10", "20", "30", "35", "40"},
         Multi = false,
         Default = 1,
     })
 
-    PlayerFarmDistance:SetValue("20")
+    PlayerFarmDistance:SetValue("35")
 
     PlayerFarmDistance:OnChanged(function(Value)
         PosY = Value
@@ -3739,6 +3853,7 @@ FastAttackHyper:OnChanged(function(value)
 	ClickNoCooldown = value
 	DmgAttack = not value
 	NoAttackAnimation = value
+	UsefastattackPlayers = value
 end)
 Options.FastAttackHyperFlag:SetValue(true)
 
@@ -3864,7 +3979,7 @@ AttackFunction = LPH_JIT_MAX(function(typef)
             end
             if tick() - cooldowntickFire > 0 then
                 ac.timeToNextAttack = 0
-                ac.hitboxMagnitude = 60
+                ac.hitboxMagnitude = 65
                 pcall(task.spawn, ac.attack, ac)
                 cooldowntickFire = tick()
             end
@@ -3907,8 +4022,8 @@ LPH_JIT_MAX(function()
                         pcall(task.spawn, AttackFunction, 2)
                     end)
                 elseif DamageAura and Fast_Attack == false then
-                    if ac.hitboxMagnitude ~= 60 then
-                        ac.hitboxMagnitude = 60
+                    if ac.hitboxMagnitude ~= 65 then
+                        ac.hitboxMagnitude = 65
                     end
                     pcall(task.spawn, ac.attack, ac)
                 end
@@ -3946,7 +4061,7 @@ LPH_NO_VIRTUALIZE(function()
 	end
 end)()
 
-task.delay(10,function() 
+task.delay(5,function() 
     if hookfunction and not islclosure(hookfunction) then 
         workspace._WorldOrigin.ChildAdded:Connect(function(v)
             if v.Name =='DamageCounter' then 
@@ -4595,6 +4710,26 @@ if World1 then
         end
     })
 
+    Tabs.Fruit:AddButton({
+        Title = "Open Shop Migare [Fruit]",
+        Description = "",
+        Callback = function()
+        local function StartDialog(DialogName)
+            local ReplicatedStorage = game:GetService("ReplicatedStorage")
+            local DialogueController = require(ReplicatedStorage.DialogueController)
+            local DialoguesList = require(ReplicatedStorage.DialoguesList)
+            
+            for Index,Dialog in pairs(DialoguesList) do
+              if tostring(Index) == DialogName then
+                DialogueController.Start(DialogueController, Dialog)
+              end
+            end
+          end
+          
+          StartDialog("FruitShop2")
+    end
+})
+        
     MirageStockInfo = Tabs.Fruit:AddParagraph({
         Title = "Mirage Stock",
         Content = ""
@@ -6279,6 +6414,61 @@ Tabs.Race:AddButton({
     end
 })
 
+    KillPlayersTrialTest = Tabs.Race:AddToggle("KillPlayersTrialTestFlag", { Title = "Auto Kill Players Near", Default = false })
+    KillPlayersTrialTest:OnChanged(function(Value)
+        _G.TrialV4 = Value
+        UsefastattackPlayers = Value
+        StopTween(_G.TrialV4)
+    end)
+    Options.KillPlayersTrialTestFlag:SetValue(false)
+
+spawn(function()
+    while wait() do
+        if _G.TrialV4 then
+            pcall(function()
+                for i, v in pairs(game.Workspace.Characters:GetChildren()) do
+                    if v.Name ~= game.Players.LocalPlayer.Name then
+                        if v.Humanoid.Health > 0 and v:FindFirstChild("HumanoidRootPart") and v.Parent and (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 150 then
+                            repeat
+                                task.wait()
+                                DamageAura = true
+                                UsefastattackPlayers = true
+                                Click()
+                                AutoHaki() 
+                                topos(v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 0)) 
+                                EquipWeapon(_G.SelectWeaponTrial) -- Equip specified weapon
+                                v.HumanoidRootPart.CanCollide = false -- Disable collisions for the target
+                                v.Head.CanCollide = false
+                                v.Humanoid.WalkSpeed = 0 -- Set target's walk speed to 0
+                                v.HumanoidRootPart.Size = Vector3.new(100, 100, 100)                                
+                                UsefastattackPlayers = true
+                                Click()
+                            until _G.TrialV4 == false or v.Humanoid.Health <= 0 or not v.Parent or not v:FindFirstChild("HumanoidRootPart") or not v:FindFirstChild("Humanoid")                            
+                        end
+                    end
+                end
+            end)
+        end
+    end
+end)
+
+-- Function to simulate key press actions for continuous input
+spawn(function()
+    while wait() do
+        if _G.TrialV4 then
+            repeat
+                task.wait()
+                if not game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui:FindFirstChild("ImageLabel") then
+                    game:GetService("VirtualUser"):CaptureController()
+                    game:GetService("VirtualUser"):SetKeyDown("0x65") -- Simulate key down (E key)
+                    wait(2)
+                    game:GetService("VirtualUser"):SetKeyUp("0x65") -- Simulate key up (E key)
+                end
+            until game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui:FindFirstChild("ImageLabel") or not _G.KillV4
+        end
+    end
+end)
+    
     KillPlayersTrial = Tabs.Race:AddToggle("KillPlayersTrialFlag", { Title = "Auto Kill Players When Trial", Default = false })
     KillPlayersTrial:OnChanged(function(Value)
         _G.AutoKillTial = Value
@@ -7328,4 +7518,4 @@ local args = {[1] = "CyborgTrainer", [2] = "Buy"}
         end
     })
     
-Green:create("Loading Done (Wait 5 Second)")                      
+Green:create("Loading Done (Wait 2 Second)")                      
