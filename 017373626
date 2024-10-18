@@ -9,7 +9,7 @@ local SaveManager = loadstring(game:HttpGet(
 local InterfaceManager = loadstring(game:HttpGet(
 "https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 
-local Window = Fluent:CreateWindow({ Title = "GreenX Hub Update 1.30", SubTitle = "Owner: BreakFast", TabWidth = 160, Size = UDim2.fromOffset(530, 360), Acrylic = false, Theme = "Darker", MinimizeKey = Enum.KeyCode.End })
+local Window = Fluent:CreateWindow({ Title = "GreenX Hub Update 1.41", SubTitle = "Owner: BreakFast", TabWidth = 160, Size = UDim2.fromOffset(530, 360), Acrylic = false, Theme = "Darker", MinimizeKey = Enum.KeyCode.End })
 
 local Tabs = {
     Main = Window:AddTab({ Title = "Main", Icon = "" }),
@@ -1378,6 +1378,7 @@ end)
         wait()
     end
     TweenSpeed = 355
+    enableNoclip()
     function topos(aL)
         pcall(function()
                 if game:GetService("Players").LocalPlayer and game:GetService("Players").LocalPlayer.Character and game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid") and game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") and  game:GetService("Players").LocalPlayer.Character.Humanoid.Health > 0 and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart then
@@ -1752,6 +1753,9 @@ spawn(function()
                 _G.AutoTerrorshark or
                 _G.farmpiranya or
                 _G.Auto_Bone or
+                _G.Grabfruit or
+                _G.Tweenfruit or
+                _G.Auto_Kill_Ply or                
                 _G.AutoMaterial or
                 _G.Auto_Saber or
                 _G.AutoQuestRace or
@@ -1978,7 +1982,7 @@ Tabs.Main:AddButton({
 })
 
 
-    AntiChest = Tabs.Main:AddToggle("AntiChestFlag", { Title = "Anti Flag Cheating", Description = "",  Default = true })
+    AntiChest = Tabs.Main:AddToggle("AntiChestFlag", { Title = "Bypass Anti Cheating", Description = "anti reset acc 50%",  Default = true })
     AntiChest:OnChanged(function(Value)
         AntiBypass = Value      
     end)
@@ -2102,7 +2106,7 @@ end
     local AutoDoge = Tabs.Main:AddToggle("DogeSkillFlag", { Title = "Auto Doge Skill Dough Boss", Description = "Doge Skill Boss",  Default = true })
     AutoDoge:OnChanged(function(green)
         DogeCakeSkill = green
-        print(v)  
+        print(v)
     end)
     Options.DogeSkillFlag:SetValue(true)
 
@@ -4026,7 +4030,7 @@ end)
 
 local Dropdown = Tabs.Settings:AddDropdown("Dropdown", {
         Title = "Select Fast Attck mob",
-        Values = {"Fast Attack","Normal Attack","Fast Attack","Super Fast Attack","Hyper Attack"},
+        Values = {"Fast Attack","Normal Attack","Low Attack","Super Fast Attack","Hyper Attack"},
         Multi = false,
         Default = 1,
     })
@@ -4042,7 +4046,7 @@ local function ChangeModeFastAttack(SelectFastAttackMode)
 		FireCooldown = 0.5
     elseif SelectFastAttackMode == "Normal Attack" then
 		FireCooldown = 0.1
-	elseif SelectFastAttackMode == "Fast Attack" then
+	elseif SelectFastAttackMode == "Low Attack" then
 		FireCooldown = 0.07
 	elseif SelectFastAttackMode == "Super Fast Attack" then
 		FireCooldown = 0.04
@@ -4288,7 +4292,7 @@ task.delay(5,function()
                         end
                     end
                 end)
-                task.wait(1.0)
+                task.wait(0.5)
             until NGU 
         end) 
         abc = true
@@ -4312,7 +4316,7 @@ task.delay(5,function()
                             d:Play(0.1, 0.1, 0.1)
                             h(i)
                             b.play = shared.cpc
-                            wait(.1)
+                            wait(0.1)
                             d:Stop()
                         end
                     end
@@ -4366,7 +4370,96 @@ end)
     end)
     Options.BringMobsFlag:SetValue(true)
 
+    Playerslist = {}
+    
+    for i,v in pairs(game:GetService("Players"):GetChildren()) do
+        table.insert(Playerslist,v.Name)
+    end
 
+    SelectPlayersDu = Tabs.Player:AddDropdown("SelectPlayersDu", {
+        Title = "Select Players",
+        Values = Playerslist,
+        Multi = false,
+        Default = 1,
+    })
+    SelectPlayersDu:SetValue("Skibidi")
+    SelectPlayersDu:OnChanged(function(Value)
+        _G.SelectPly = Value
+    end)
+
+
+    Tabs.Player:AddButton({
+    Title = "Refresh Player",
+    Description = "",
+    Callback = function()
+        Playerslist = {}
+        if not SelectedPly then
+            SelectedPly = {} 
+        end
+        if type(SelectedPly.Clear) == "function" then
+            SelectedPly:Clear()
+        end
+        
+        for i, v in pairs(game:GetService("Players"):GetChildren()) do  
+            table.insert(Playerslist, v.Name)
+            if type(SelectedPly.Add) == "function" then
+                SelectedPly:Add(v.Name)
+            end
+        end
+    end
+})
+           
+    SelectLlayers = Tabs.Player:AddToggle("SelectLlayersFlag", { Title = "Auto Kill Players selected", Default = false })
+    SelectLlayers:OnChanged(function(Value)
+        _G.Auto_Kill_Ply = Value
+        UsefastattackPlayers = Value
+        StopTween(_G.Auto_Kill_Ply)
+    end)
+    Options.SelectLlayersFlag:SetValue(false)
+--
+    spawn(function()
+        while wait() do
+            if _G.Auto_Kill_Ply then
+                pcall(function()
+                    if _G.SelectPly ~= nil then
+                        local selectedPlayer = game.Players:FindFirstChild(_G.SelectPly)
+                        if selectedPlayer and selectedPlayer.Character and selectedPlayer.Character:FindFirstChild("Humanoid") then
+                            if selectedPlayer.Character.Humanoid.Health > 0 then
+                                repeat
+                                    task.wait()
+                                    UsefastattackPlayers = true
+                                    DamageAura = true
+                                    NeedAttacking = true
+                                    NoAttackAnimation = true
+                                    EquipWeapon(_G.SelectWeapon)
+                                    AutoHaki()
+                                    Click()
+                                    selectedPlayer.Character.HumanoidRootPart.CanCollide = false
+                                    topos(selectedPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, 5, 0))
+                                    
+                                    spawn(function()
+                                        pcall(function()
+                                            if _G.SelectWeapon == SelectWeaponGun then
+                                                local args = {
+                                                    [1] = selectedPlayer.Character.HumanoidRootPart.Position,
+                                                    [2] = selectedPlayer.Character.HumanoidRootPart
+                                                }
+                                                game:GetService("Players").LocalPlayer.Character[SelectWeaponGun].RemoteFunctionShoot:InvokeServer(unpack(args))
+                                            else
+                                                game:GetService("VirtualUser"):CaptureController()
+                                                game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
+                                            end
+                                        end)
+                                    end)
+                                until selectedPlayer.Character.Humanoid.Health <= 0 or not selectedPlayer or not _G.Auto_Kill_Ply
+                            end
+                        end
+                    end
+                end)
+            end
+        end
+    end)
+    
     local plr = game.Players.LocalPlayer
     if plr and plr.Data and plr.Data.Points and plr.Data.Stats then
         local CheckStats = Tabs.Player:AddParagraph({
@@ -4977,18 +5070,62 @@ spawn(function()
         if _G.FruitCheck then
             for i,v in pairs(game.Workspace:GetChildren()) do
                 if string.find(v.Name, "Fruit") then
-                    Fluent:Notify({
-                        Title = "GreenX Hub",
-                        Content = "Fruit Notification",
-                        SubContent = "Fruit : "..v.Name, 
-                        Duration = 5
-                    })
+                   Green:create("Fruit : " .. v.Nmae);
                 end
             end
         end
     end
 end)
 
+    GrabFruit = Tabs.Fruit:AddToggle("GrabFruitFlag", { Title = "Auto Teleport To Fruits", Default = false })
+    GrabFruit:OnChanged(function(Value)
+        _G.Grabfruit = Value
+    end)
+    Options.GrabFruitFlag:SetValue(false)
+
+spawn(function()
+	while wait(0.1) do
+		if _G.Grabfruit then
+			for i, v in pairs(game.Workspace:GetChildren()) do
+				if string.find(v.Name, "Fruit") then
+					game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Handle.CFrame;
+				end;
+			end;
+		end;
+	end;
+end);
+    TweenFruit = Tabs.Fruit:AddToggle("TweenFruit", { Title = "Auto Tween To Fruits In Severs", Default = false })
+    TweenFruit:OnChanged(function(Value)
+        _G.Tweenfruit = Value
+        StopTween(_G.Tweenfruit)
+    end)
+    Options.TweenFruit:SetValue(false)
+    
+spawn(function()
+	while wait(0.1) do
+		if _G.Tweenfruit then
+			for i, v in pairs(game.Workspace:GetChildren()) do
+				if string.find(v.Name, "Fruit") then
+					topos(v.Handle.CFrame);
+				end;
+			end;
+		end;
+	end;
+end);
+
+    Tabs.Fruit:AddButton({
+        Title = "Grab All Fruits",
+        Description = "",
+        Callback = function()
+             for i, v in pairs(game.Workspace:GetChildren()) do
+            	if v:IsA("Tool") then
+            		v.Handle.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame;
+            	end;
+             end 
+        end
+    })
+    
+    
     AutoRandomFruit = Tabs.Fruit:AddToggle("AutoRandomFruitFlag", { Title = "Auto Random Fruit", Default = false })
     AutoRandomFruit:OnChanged(function(Value)
         _G.Random_Auto = Value
@@ -7724,5 +7861,197 @@ local args = {[1] = "CyborgTrainer", [2] = "Buy"}
              game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BlackbeardReward","Refund","2")
         end
     })
-    
-Green:create("Loading Done (Wait 2 Second)")                      
+
+Green:create("Loading Done (Wait 2 Second)")
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v) 
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v) 
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v) 
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v) 
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v) 
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v) 
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v) 
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v) 
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v) 
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v) 
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v) 
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v) 
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v) 
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v) 
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v) 
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v) 
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)
+print(v)                  
