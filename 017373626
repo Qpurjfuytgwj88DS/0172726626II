@@ -9,19 +9,20 @@ local SaveManager = loadstring(game:HttpGet(
 local InterfaceManager = loadstring(game:HttpGet(
 "https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 
-local Window = Fluent:CreateWindow({ Title = "GreenX Hub Update 1.41", SubTitle = "Owner: BreakFast", TabWidth = 160, Size = UDim2.fromOffset(530, 360), Acrylic = false, Theme = "Darker", MinimizeKey = Enum.KeyCode.End })
+local Window = Fluent:CreateWindow({ Title = "GreenX Hub Update 1.44", SubTitle = "Owner: BreakFast", TabWidth = 160, Size = UDim2.fromOffset(530, 360), Acrylic = false, Theme = "Darker", MinimizeKey = Enum.KeyCode.End })
 
 local Tabs = {
     Main = Window:AddTab({ Title = "Main", Icon = "" }),
     Sub = Window:AddTab({ Title = "Sub Farm", Icon = "" }),
     SeaE = Window:AddTab({ Title = "Sea Event", Icon = "" }),
     Sh = Window:AddTab({ Title = "Store-Store", Icon = "" }),  
+    Mas = Window:AddTab({ Title = "Mastery Settings", Icon = "" }),        
     Settings = Window:AddTab({ Title = "Settings", Icon = "" }),
     Race = Window:AddTab({ Title = "Update V4", Icon = "" }),
     Player = Window:AddTab({ Title = "Player", Icon = "" }),
     Raid = Window:AddTab({ Title = "Raids", Icon = "" }),
     Travel = Window:AddTab({ Title = "Travel", Icon = "" }),
-    Fun = Window:AddTab({ Title = "Severs Status", Icon = "" }),
+    Fun = Window:AddTab({ Title = "Severs Join", Icon = "" }),
     Fruit = Window:AddTab({ Title = "Devils Fruits", Icon = "" }),
 }
 
@@ -1599,7 +1600,7 @@ function getAllBladeHitsPlayers(Sizes)
     end
     return Hits
 end
-
+--
 function getAllBladeHits(Sizes)
     local Hits = {}
     local Client = game.Players.LocalPlayer
@@ -2054,6 +2055,43 @@ Tabs.Main:AddButton({
     end)
     Options.AutoFarmFlag:SetValue(false)
 
+Tabs.Main:AddSection("Mastery Section")
+                    
+local MasteryMode = {
+	"Level Farm",
+	"Nearest"
+};
+   SlectModeMas = Tabs.Main:AddDropdown("SlectModeMas", {
+        Title = "Select Farm Mode Mastery",
+        Values = MasteryMode,
+        Multi = false,
+        Default = 1,
+   })
+
+   SlectModeMas:SetValue("Level Farm")
+
+   SlectModeMas:OnChanged(function(Value)
+        SelectedMasteryMode = Value
+   end)
+    
+   MasteryFd = Tabs.Main:AddToggle("FarmfruitFlag", { Title = "Auto Farm Mastery Fruits", Default = false })
+   MasteryFd:OnChanged(function(Value)
+        _G.AutoFarmFruitMastery = Value
+          if not Fast_Attack and not DamageAura or not NeedAttacking then
+         StopTween(_G.AutoFarmFruitMastery)       
+        end
+   end)   
+   Options.FarmfruitFlag:SetValue(false)
+
+   MasteryFdg = Tabs.Main:AddToggle("FarmGunFlag", { Title = "Auto Farm Mastery Gun", Default = false })
+   MasteryFdg:OnChanged(function(Value)
+        _G.AutoFarmFruitMastery = Value
+        if not Fast_Attack and not DamageAura or not NeedAttacking then                    
+           StopTween(_G.AutoFarmFruitMastery)
+        end
+    end)
+   Options.FarmGunFlag:SetValue(false)
+   
 --    AutoAcceptQuest = Tabs.Main:AddToggle("AutoAcceptQuestFlag", { Title = "Accept Quest", Default = false })
   --  AutoAcceptQuest:OnChanged(function(Value)
   --      _G.AcceptQuests = Value
@@ -2061,10 +2099,7 @@ Tabs.Main:AddButton({
 --    Options.AutoAcceptQuestFlag:SetValue(false)
 
 
-BoneAndCake = Tabs.Main:AddParagraph({
-    Title = "Cake Prince and Bone Farm",
-    Content = ""
-})
+Tabs.Main:AddSection("Cake Prince and Bone")
 
 local Mob_Kill_Cake_Prince = Tabs.Main:AddParagraph({
     Title = "Check Katakuri Spawn",
@@ -2153,7 +2188,7 @@ end);
     end)
     Options.AutoFarmDoughBossFlag:SetValue(false)
 
-local CakePos = CFrame.new(-2091.911865234375, 70.00884246826172, -12142.8359375);
+local CakePos = CFrame.new(-2322.144287109375, 451.0404357910156, -12415.951171875)
 spawn(function()
 	while wait() do
 		if _G.AutoFarmPrince then
@@ -2220,7 +2255,7 @@ spawn(function()
 							topos(CakePos);
 						end;
 						UnEquipWeapon(_G.SelectWeapon);
-						topos(CFrame.new(-2091.911865234375, 70.00884246826172, -12142.8359375));
+						topos(CFrame.new(-2322.144287109375, 451.0404357910156, -12415.951171875));
 					end;
 				end;
 			end);
@@ -2505,10 +2540,7 @@ end);
     Options.AutoSaberQuestFlag:SetValue(false)
 end
 
-MeleeFarm = Tabs.Sub:AddParagraph({
-    Title = "Fighting Style",
-    Content = ""
-})     
+Tabs.Sub:AddSection("Farming Melee")
 
     GoodHuman = Tabs.Sub:AddToggle("GoodHumanFlag", { Title = "Auto Get Melee GoodHuman", Description = "request: 4 Melee above 400 Mastery: Superhuman, DeathStep, Electric Claw, SharkMan Karate", Default = false })
     GoodHuman:OnChanged(function(Value)
@@ -2833,10 +2865,7 @@ spawn(function()
 	end);
 end);
 
-Getzite = Tabs.Sub:AddParagraph({
-    Title = "Items",
-    Content = ""
-})         
+Tabs.Sub:AddSection("Get Items")
     AutoGetHallowScythe = Tabs.Sub:AddToggle("AutoGetHallowScytheFlag", { Title = "Get Hallow Scythe (Soul Reaper)", Description = "Random Bone when will Soul Reaper item be released ", Default = false })
     AutoGetHallowScythe:OnChanged(function(Value)
         _G.AutoFarmBossHallow = Value
@@ -3066,6 +3095,7 @@ spawn(function()
 	end;
 end);
 
+Tabs.Sub:AddSection("Elite Farm")	
 local Elite_Hunter_Status = Tabs.Sub:AddParagraph({
     Title = "Elite Hunter Status: ",
     Content = ""
@@ -3152,67 +3182,7 @@ Options.GreenXXJFlag:SetValue(false)
 			end
 		end
 	end)
-	
---[[    local EliteHunter = Tabs.Sub:AddToggle("EliteHunterFlag", { Title = "Auto Kill Elite Hunter", Description = "if you are lucky you will drop the God's Chalice item",  Default = false })
-    EliteHunter:OnChanged(function(Value)
-        _G.AutoElitehunter = Value
-        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
-        StopTween(_G.AutoElitehunter)
-    end)
-    Options.EliteHunterFlag:SetValue(false)
--- hh
-local Elite = CFrame.new(-5418.892578125, 313.74130249023, -2826.2260742188);
-spawn(function()
-	while wait() do
-		if _G.AutoElitehunter then
-			pcall(function()
-				local QuestTitle = (game:GetService("Players")).LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text;
-				if (game:GetService("Players")).LocalPlayer.PlayerGui.Main.Quest.Visible == false then
-					if BypassTP then
-						if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - Elite.Position).Magnitude > 1500 then
-							BTP(Elite);
-						elseif (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - Elite.Position).Magnitude < 1500 then
-							topos(Elite);
-						end;
-					else
-						topos(Elite);
-					end;
-					if (Vector3.new((-5418.892578125), 313.74130249023, (-2826.2260742188)) - (game:GetService("Players")).LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 3 then
-						(game:GetService("ReplicatedStorage")).Remotes.CommF_:InvokeServer("EliteHunter");
-					end;
-				elseif (game:GetService("Players")).LocalPlayer.PlayerGui.Main.Quest.Visible == true then
-					if string.find(QuestTitle, "Diablo") or string.find(QuestTitle, "Deandre") or string.find(QuestTitle, "Urban") then
-						if (game:GetService("Workspace")).Enemies:FindFirstChild("Diablo") or (game:GetService("Workspace")).Enemies:FindFirstChild("Deandre") or (game:GetService("Workspace")).Enemies:FindFirstChild("Urban") then
-							for i, v in pairs((game:GetService("Workspace")).Enemies:GetChildren()) do
-								if v.Name == "Diablo" or v.Name == "Deandre" or v.Name == "Urban" then
-									if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
-										repeat
-											task.wait();
-											AutoHaki();
-											EquipWeapon(_G.SelectWeapon);
-											v.HumanoidRootPart.CanCollide = false;
-											v.Humanoid.WalkSpeed = 0;
-											v.HumanoidRootPart.Size = Vector3.new(50, 50, 50);
-											topos(v.HumanoidRootPart.CFrame * Pos);
-											NeedAttacking = true																						
-										until _G.AutoElitehunter == false or v.Humanoid.Health <= 0 or (not v.Parent);
-									end;
-								end;
-							end;
-						elseif (game:GetService("ReplicatedStorage")):FindFirstChild("Diablo") then
-							topos(((game:GetService("ReplicatedStorage")):FindFirstChild("Diablo")).HumanoidRootPart.CFrame * CFrame.new(2, 20, 2));
-						elseif (game:GetService("ReplicatedStorage")):FindFirstChild("Deandre") then
-							topos(((game:GetService("ReplicatedStorage")):FindFirstChild("Deandre")).HumanoidRootPart.CFrame * CFrame.new(2, 20, 2));
-						elseif (game:GetService("ReplicatedStorage")):FindFirstChild("Urban") then
-							topos(((game:GetService("ReplicatedStorage")):FindFirstChild("Urban")).HumanoidRootPart.CFrame * CFrame.new(2, 20, 2));
-						end;
-					end;
-				end;
-			end);
-		end;
-	end;
-end);--]]
-
+Tabs.Sub:AddSection("Rip_indra and Get Cdk Quest")	
     GetripDraFD = Tabs.Sub:AddToggle("GetripDraFDFlag", { Title = "Auto Press Haki Button", Description = "Need 3 Haki Legendary Color to summon rip_indra", Default = false })
     GetripDraFD:OnChanged(function(Value)
         Open_Color_Haki = Value
@@ -4136,6 +4106,17 @@ FastAttackHyper:OnChanged(function(value)
 end)
 Options.FastAttackHyperFlag:SetValue(true)
 
+
+local Mouse = game:GetService("Players").LocalPlayer:GetMouse()
+Mouse.Button1Down:Connect(function()
+	if ClickNoCooldown then
+		local ac = CombatFrameworkR.activeController
+		if ac and ac.equipped then
+			ac.hitboxMagnitude = 55
+			pcall(AttackFunction,1)
+		end
+	end
+end)
     
 if not LPH_OBFUSCATED then
 	LPH_NO_VIRTUALIZE = (function(...) return ... end)
@@ -4256,7 +4237,7 @@ AttackFunction = LPH_JIT_MAX(function(typef)
             if tick() > AttackCoolDown then
                 CancelCoolDown()
             end
-            if tick() - cooldowntickFire > 0 then
+            if tick() - cooldowntickFire > 0.3 then
                 ac.timeToNextAttack = 0
                 ac.hitboxMagnitude = 65
                 pcall(task.spawn, ac.attack, ac)
@@ -4340,7 +4321,7 @@ LPH_NO_VIRTUALIZE(function()
 	end
 end)()
 
-task.delay(5,function() 
+task.delay(3,function() 
     if hookfunction and not islclosure(hookfunction) then 
         workspace._WorldOrigin.ChildAdded:Connect(function(v)
             if v.Name =='DamageCounter' then 
@@ -4360,7 +4341,7 @@ task.delay(5,function()
                         end
                     end
                 end)
-                task.wait(0.5)
+                task.wait(0.1)
             until NGU 
         end) 
         abc = true
@@ -4476,9 +4457,28 @@ end)
         end
     end
 })
-           
-    SelectLlayers = Tabs.Player:AddToggle("SelectLlayersFlag", { Title = "Auto Kill Players selected", Default = false })
-    SelectLlayers:OnChanged(function(Value)
+
+SafeMode = Tabs.Player:AddToggle("SafeModeFlag", {Title = "Safe Mode Enable if low health", Default = false })
+SafeMode:OnChanged(function(Value)
+    _G.Safe_Mode = Value
+end)
+Options.SafeModeFlag:SetValue(false)   
+
+spawn(function()
+    pcall(function()
+        while wait(1) do 
+            if _G.Safe_Mode and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
+                local humanoid = game.Players.LocalPlayer.Character.Humanoid
+                if humanoid.Health < 4500 then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, 200, 0)
+                end
+            end
+        end
+    end)
+end)
+   
+     KillPlayersPly = Tabs.Player:AddToggle("SelectLlayersFlag", { Title = "Auto Kill Players selected", Default = false })
+     KillPlayersPly:OnChanged(function(Value)
         _G.Auto_Kill_Ply = Value
         AttackPlaer = Value
         StopTween(_G.Auto_Kill_Ply)
@@ -4498,6 +4498,7 @@ end)
                                     UsefastattackPlayers = true
                                     AttackPlaer = true
                                     Fast_Attack = true
+                                    
                                     EquipWeapon(_G.SelectWeapon)
                                     AutoHaki()
                                     Click()
@@ -4994,6 +4995,48 @@ if World1 then
 
     --Fun/VisualkSection
 
+    Tabs.Fun:AddSection("Job ID Join")
+    local Input = Tabs.Fun:AddInput("Input", {
+        Title = "Job Id",
+        Default = "",
+        Placeholder = "Paste Job Id",
+        Numeric = false, 
+        Finished = false, 
+        Callback = function(Value)
+            _G.Job = Value
+        end
+    })
+    
+    Tabs.Fun:AddButton({
+        Title = "Copy Job ID",
+        Description = "",
+        Callback = function()
+            setclipboard(tostring(game.JobId))
+        end
+    })
+    
+    Tabs.Fun:AddButton({
+        Title = "Join Job ID",
+        Description = "",
+        Callback = function()
+            game:GetService("TeleportService"):TeleportToPlaceInstance(game.placeId,_G.Job, game.Players.LocalPlayer)
+        end
+    })
+
+    
+    JoinIb = Tabs.Fun:AddToggle("JoinIb", {Title = "Spam Join Job Id", Default = false })
+    JoinIb:OnChanged(function(Value)
+      _G.Join = Value  
+    end)
+Options.JoinIb:SetValue(false)		
+		spawn(function()
+            while wait() do
+                if _G.Join then
+                game:GetService("TeleportService"):TeleportToPlaceInstance(game.placeId,_G.Job, game.Players.LocalPlayer)
+            end
+        end
+    end)
+
     Tabs.Fun:AddButton({
         Title = "Rain Fruit",
         Description = "Troll",
@@ -5015,6 +5058,43 @@ if World1 then
         end
     })
 
+local Rejoin = Tabs.Fun:AddToggle("RejoinFlag", {Title = "Auto Rejoin If Disconnect or Kicked", Default = true })
+Rejoin:OnChanged(function(Value)
+   _G.Rejoin = Value
+end)
+Options.RejoinFlag:SetValue(true)
+  if _G.Rejoin then
+    if not getgenv().rejoinConnection then
+      getgenv().rejoinConnection = game:GetService("CoreGui").RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(child)
+        if child.Name == 'ErrorPrompt' and child:FindFirstChild('MessageArea') and child.MessageArea:FindFirstChild("ErrorFrame") then
+          game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer)
+        end
+      end)
+    end
+  else
+    if getgenv().rejoinConnection then
+      getgenv().rejoinConnection:Disconnect()
+      getgenv().rejoinConnection = nil
+    end
+  end
+
+    WalkWater = Tabs.Fun:AddToggle("WalkWaterFlag", {Title = "Walk On Water", Default = true })
+    WalkWater:OnChanged(function(Value)
+        _G.WalkWater = Value
+    end)
+Options.WalkWaterFlag:SetValue(true)			
+		spawn(function()
+			while task.wait() do
+				pcall(function()
+					if _G.WalkWater then
+						game:GetService("Workspace").Map["WaterBase-Plane"].Size = Vector3.new(1000,112,1000)
+					else
+						game:GetService("Workspace").Map["WaterBase-Plane"].Size = Vector3.new(1000,80,1000)
+					end
+				end)
+			end
+		end)
+		  
     Tabs.Fun:AddButton({
         Title = "Instant Max All",
         Description = "Beli, Level, Exp",
@@ -6887,53 +6967,33 @@ end)
     end)
     Options.KillPlayersTrialFlag:SetValue(false)
 --
-spawn(
-    function()
-    while task.wait() do
-        if _G.AutoKillTial and World3 then
-            pcall(
-                function()
-    if game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Timer.Visible == true then
-                for i, v in pairs(game.Workspace.Characters:GetChildren()) do
-                    if v.Name ~= game.Players.LocalPlayer.Name then
-                        if v.Humanoid.Health > 0 and v:FindFirstChild("HumanoidRootPart") and v.Parent and (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude <= 230 then
-                            repeat task.wait()
-                                AutoHaki()
+spawn(function()
+    while wait() do 
+        pcall(function()
+            if _G.AutoKillTial then
+                for i,v in pairs(game:GetService("Workspace").Characters:GetChildren()) do
+                    if v.Name ~= game.Players.LocalPlayer.Name and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 250 then
+                        if v.Humanoid.Health > 0 then
+                            repeat wait()
+                                AutoHaki()                                                            
                                 EquipWeapon(_G.SelectWeapon)
-                                UsefastattackPlayers = true
+                                NameTarget = v.Name
                                 AttackPlaer = true
-                            topos(v.HumanoidRootPart.CFrame * CFrame.new(1, 1, 2))
-                            v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
-                            if SkillZNe then
-           game:GetService("VirtualInputManager"):SendKeyEvent(true,"Z",false,game)
-                     wait(.1)
-           game:GetService("VirtualInputManager"):SendKeyEvent(false,"Z",false,game)
-                                end
-                            if SkillXNe then
-           game:GetService("VirtualInputManager"):SendKeyEvent(true,"X",false,game)
-                     wait(.1)
-           game:GetService("VirtualInputManager"):SendKeyEvent(false,"X",false,game)
-                                end
-                            if SkillCNe then
-           game:GetService("VirtualInputManager"):SendKeyEvent(true,"C",false,game)
-                     wait(.1)
-           game:GetService("VirtualInputManager"):SendKeyEvent(false,"C",false,game)
-                                end
+                                UsefastattackPlayers = true
+                                ClickNoCooldown = true
+                                topos(HumanoidRootPart.CFrame * CFrame.new(0, 5, 0))                                
                                 v.HumanoidRootPart.CanCollide = false
                                 v.Head.CanCollide = false
-                                v.Humanoid.WalkSpeed = 0          
-              sethiddenproperty(game.Players.LocalPlayer,"SimulationRadius",math.huge)
-                            until _G.AutoKillTial == false or v.Humanoid.Health <= 0 or not v.Parent or not v:FindFirstChild("HumanoidRootPart") or not v:FindFirstChild("Humanoid")
-                            end
+                                v.HumanoidRootPart.Size = Vector3.new(100, 100, 100)
+                                Click()
+                            until not _G.AutoKillTial or not v.Parent or v.Humanoid.Health <= 0 
                         end
                     end
                 end
             end
-            )
-        end
+        end)
     end
-end
-)
+end)
 
 --[[spawn(function()
 	while wait() do
@@ -6984,23 +7044,7 @@ spawn(function()
 	end;
 end); --]]
 
-    Dungskillkhing = Tabs.Race:AddToggle("DungskillkhingFlag", { Title = "Skill Z For [Kill Players When Trial]", Default = false })
-    Dungskillkhing:OnChanged(function(Value)
-        SkillZNe = Value
-    end)
-    Options.DungskillkhingFlag:SetValue(false)
-
-    DungskillkhingX = Tabs.Race:AddToggle("DungskillkhingXFlag", { Title = "Skill X For [Kill Players When Trial]", Default = false })
-    DungskillkhingX:OnChanged(function(Value)
-        SkillXNe = Value
-    end)
-    Options.DungskillkhingXFlag:SetValue(false)
-
-    DungskillkhingC = Tabs.Race:AddToggle("DungskillkhingCFlag", { Title = "Skill C For [Kill Players When Trial]", Default = false })
-    DungskillkhingC:OnChanged(function(Value)
-        SkillCNe = Value
-    end)
-    Options.DungskillkhingCFlag:SetValue(false)
+    
                 	   
 spawn(function()
     pcall(function()
@@ -7135,7 +7179,7 @@ spawn(function()
     end)
 end)
 
---[[-- Mastery Tabs
+
    CheckMas = Tabs.Mas:AddParagraph({
         Title = "Settings Skill",
         Content = "And Hold Skill"
@@ -7383,41 +7427,6 @@ spawn(function()
 	end;
 end);
 
-   FarmNedi = Tabs.Mas:AddParagraph({
-        Title = "Farm Mastery Main:)",
-        Content = ""
-   })
-                    
-local MasteryMode = {
-	"Level Farm",
-	"Nearest"
-};
-   SlectModeMas = Tabs.Mas:AddDropdown("SlectModeMas", {
-        Title = "Select Farm Mode Mastery",
-        Values = MasteryMode,
-        Multi = false,
-        Default = 1,
-   })
-
-   SlectModeMas:SetValue("Level Farm")
-
-   SlectModeMas:OnChanged(function(Value)
-        SelectedMasteryMode = Value
-   end)
-    
-   MasteryFd = Tabs.Mas:AddToggle("FarmfruitFlag", { Title = "Auto Farm Mastery Fruits", Default = false })
-   MasteryFd:OnChanged(function(Value)
-        _G.AutoFarmFruitMastery = Value
-        StopTween(_G.AutoFarmFruitMastery)
-   end)
-   Options.FarmfruitFlag:SetValue(false)
-
-   MasteryFdg = Tabs.Mas:AddToggle("FarmGunFlag", { Title = "Auto Farm Mastery Gun", Default = false })
-   MasteryFdg:OnChanged(function(Value)
-        _G.AutoFarmFruitMastery = Value
-        StopTween(_G.AutoFarmFruitMastery)
-   end)
-   Options.FarmGunFlag:SetValue(false)
 
 spawn(function()
 	pcall(function()
@@ -7632,7 +7641,7 @@ spawn(function()
 			end);
 		end;
 	end;
-end);--]]
+end);
         
 
     function GetCountMaterials(matname)
