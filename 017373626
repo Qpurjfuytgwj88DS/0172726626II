@@ -1378,7 +1378,6 @@ end)
         wait()
     end
     TweenSpeed = 355
-    enableNoclip()
     function topos(aL)
         pcall(function()
                 if game:GetService("Players").LocalPlayer and game:GetService("Players").LocalPlayer.Character and game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid") and game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") and  game:GetService("Players").LocalPlayer.Character.Humanoid.Health > 0 and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart then
@@ -2044,50 +2043,9 @@ Tabs.Main:AddButton({
         FarmMode = Value
         print(v)        
     end)
-if World3 then
-local ListB = {
-	"No Quest",
-	"Quest",
-    "MasteryFruit",
-	"MasteryGun"
-}
-    SelectFarmModeH = Tabs.Main:AddDropdown("SelectFarmModeH", {
-        Title = "Select Bone Mode",
-        Values = ListB,
-        Multi = false,
-        Default = 1,
-    })
 
-    SelectFarmModeH:SetValue("No Quest")
 
-    SelectFarmModeH:OnChanged(function(Value)
-        BoneFMode = Value
-        print(v)
-    end)
-
-    local RandomBone = Tabs.Main:AddToggle("RandomBoneFlag", {Title = "Random Bone", Default = false })
-
-    RandomBone:OnChanged(function(Value)
-		_G.Auto_Random_Bone = Value
-    end)
-
-    spawn(function()
-            while wait(00000.1) do
-                if _G.Auto_Random_Bone then    
-                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Buy",1,1)
-                end
-            end
-    end)
-Options.RandomBoneFlag:SetValue(false)    
-    AutoBone = Tabs.Main:AddToggle("AutoBoneFlag", { Title = "Farm Bones", Description = "Farm Bone Item Bone Max 5000", Default = false })
-    AutoBone:OnChanged(function(Value)
-        _G.Auto_Bone = Value
-        StopTween(_G.Auto_Bone)
-        print(v)
-    end)
-    Options.AutoBoneFlag:SetValue(false)
-end
-    local AutoFarm = Tabs.Main:AddToggle("AutoFarmFlag", { Title = "Auto Farm", Description = "Don't hang up for too long will be reset level =(",  Default = false })
+    local AutoFarm = Tabs.Main:AddToggle("AutoFarmFlag", { Title = "Stating Auto Farm", Description = "Don't hang up for too long will be reset level =(",  Default = false })
     AutoFarm:OnChanged(function(Value)
         _G.AutoFarm = Value
         DamageAura = Value         
@@ -2103,12 +2061,10 @@ end
 --    Options.AutoAcceptQuestFlag:SetValue(false)
 
 
-    local AutoDoge = Tabs.Main:AddToggle("DogeSkillFlag", { Title = "Auto Doge Skill Dough Boss", Description = "Doge Skill Boss",  Default = true })
-    AutoDoge:OnChanged(function(green)
-        DogeCakeSkill = green
-        print(v)
-    end)
-    Options.DogeSkillFlag:SetValue(true)
+BoneAndCake = Tabs.Main:AddParagraph({
+    Title = "Cake Prince and Bone Farm",
+    Content = ""
+})
 
 local Mob_Kill_Cake_Prince = Tabs.Main:AddParagraph({
     Title = "Check Katakuri Spawn",
@@ -2167,6 +2123,13 @@ spawn(function()
 	end;
 end);
 
+    local AutoDoge = Tabs.Main:AddToggle("DogeSkillFlag", { Title = "Auto Doge Skill Dough Boss", Description = "Doge Skill Boss",  Default = true })
+    AutoDoge:OnChanged(function(green)
+        DogeCakeSkill = green
+        print(v)
+    end)
+    Options.DogeSkillFlag:SetValue(true)
+    
     SummonDough = Tabs.Main:AddToggle("SummonDoughFlag", { Title = "Summon Dough Boss Normal", Description = "", Default = true })
     SummonDough:OnChanged(function(Value)
         _G.AutoSpawnCP = Value        
@@ -2264,7 +2227,48 @@ spawn(function()
 		end;
 	end;
 end);
+local ListB = {
+	"No Quest",
+	"Quest",
+    "MasteryFruit",
+	"MasteryGun"
+}
+    SelectFarmModeH = Tabs.Main:AddDropdown("SelectFarmModeH", {
+        Title = "Select Bone Mode",
+        Values = ListB,
+        Multi = false,
+        Default = 1,
+    })
 
+    SelectFarmModeH:SetValue("No Quest")
+
+    SelectFarmModeH:OnChanged(function(Value)
+        BoneFMode = Value
+        print(v)
+    end)
+
+    local RandomBone = Tabs.Main:AddToggle("RandomBoneFlag", {Title = "Random Bone", Default = false })
+
+    RandomBone:OnChanged(function(Value)
+		_G.Auto_Random_Bone = Value
+    end)
+
+    spawn(function()
+            while wait(00000.1) do
+                if _G.Auto_Random_Bone then    
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Buy",1,1)
+                end
+            end
+    end)
+Options.RandomBoneFlag:SetValue(false)    
+    AutoBone = Tabs.Main:AddToggle("AutoBoneFlag", { Title = "Farm Bones", Description = "Farm Bone Item Bone Max 5000", Default = false })
+    AutoBone:OnChanged(function(Value)
+        _G.Auto_Bone = Value
+        StopTween(_G.Auto_Bone)
+        print(v)
+    end)
+    Options.AutoBoneFlag:SetValue(false)
+    
  ----
 if World1 then
 	tableBoss = {
@@ -2310,9 +2314,14 @@ elseif World3 then
 	};
 end;
 
+BossMisc = Tabs.Main:AddParagraph({
+    Title = "Boss Farm",
+    Content = ""
+})
+
     local BossInfo = Tabs.Main:AddParagraph({
         Title = "Boss Status:",
-        Content = ""
+        Content = "Misc"
     })
 spawn(function()
 	while wait() do
@@ -3899,7 +3908,66 @@ game:GetService("RunService").RenderStepped:Connect(function()
     end
 end)
 
-	
+
+    local SailBoat = Tabs.SeaE:AddToggle("SailBoat", {Title = "Auto Driver Boat", Description = "[Not Working Wait Fix]", Default = false })
+
+    SailBoat:OnChanged(function(Value)
+        _G.SailBoat = Value
+        StopTween(_G.SailBoat)
+    end)
+
+    spawn(function()
+        while wait() do
+            pcall(function()
+                if _G.SailBoat then
+                    if not game:GetService("Workspace").Enemies:FindFirstChild("Shark") or not game:GetService("Workspace").Enemies:FindFirstChild("Terrorshark") or not game:GetService("Workspace").Enemies:FindFirstChild("Piranha") or not game:GetService("Workspace").Enemies:FindFirstChild("Fish Crew Member") then
+                        if not game:GetService("Workspace").Boats:FindFirstChild("PirateBrigade") then
+                            buyb = TPP(CFrame.new(-16927.451171875, 9.0863618850708, 433.8642883300781))
+                            if (CFrame.new(-16927.451171875, 9.0863618850708, 433.8642883300781).Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude <= 10 then
+                                if buyb then buyb:Stop() end
+                                local args = {
+                                    [1] = "BuyBoat",
+                                    [2] = "PirateBrigade"
+                                }
+    
+                                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+                            end
+                        elseif game:GetService("Workspace").Boats:FindFirstChild("PirateBrigade") then
+                            if game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Sit == false then
+                                TPP(game:GetService("Workspace").Boats.PirateBrigade.VehicleSeat.CFrame * CFrame.new(0,1,0))
+                            else
+                                for i,v in pairs(game:GetService("Workspace").Boats:GetChildren()) do
+                                    if v.Name == "PirateBrigade" then
+                                        repeat wait()
+                                            if (CFrame.new(-17013.80078125, 10.962434768676758, 438.0169982910156).Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude <= 10 then
+                                                TweenShip(CFrame.new(-25351.8418, 10.7575607, 26430.791, -0.998379767, -0.00721008703, -0.0564435199, -0.00722159958, 0.999973953, -1.53919405e-10, 0.0564420484, 0.000407612359, -0.998405814))
+                                            elseif (CFrame.new(-25351.8418, 10.7575607, 26430.791, -0.998379767, -0.00721008703, -0.0564435199, -0.00722159958, 0.999973953, -1.53919405e-10, 0.0564420484, 0.000407612359, -0.998405814).Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude <= 10 then
+                                                TweenShip(CFrame.new(-25351.8418, 10.7575607, 26430.791, -0.998379767, -0.00721008703, -0.0564435199, -0.00722159958, 0.999973953, -1.53919405e-10, 0.0564420484, 0.000407612359, -0.998405814))
+                                            elseif (CFrame.new(-25351.8418, 10.7575607, 26430.791, -0.998379767, -0.00721008703, -0.0564435199, -0.00722159958, 0.999973953, -1.53919405e-10, 0.0564420484, 0.000407612359, -0.998405814).Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude <= 10 then
+                                                TweenShip(CFrame.new(-25351.8418, 10.7575607, 26430.791, -0.998379767, -0.00721008703, -0.0564435199, -0.00722159958, 0.999973953, -1.53919405e-10, 0.0564420484, 0.000407612359, -0.998405814))
+                                            end 
+                                        until game:GetService("Workspace").Enemies:FindFirstChild("Shark") or game:GetService("Workspace").Enemies:FindFirstChild("Terrorshark") or game:GetService("Workspace").Enemies:FindFirstChild("Piranha") or game:GetService("Workspace").Enemies:FindFirstChild("Fish Crew Member") or _G.SailBoat == false
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end)
+        end
+    end)
+    
+    spawn(function()
+		pcall(function()
+			while wait() do
+				if _G.SailBoat then
+					if game:GetService("Workspace").Enemies:FindFirstChild("Shark") or game:GetService("Workspace").Enemies:FindFirstChild("Terrorshark") or game:GetService("Workspace").Enemies:FindFirstChild("Piranha") or game:GetService("Workspace").Enemies:FindFirstChild("Fish Crew Member") then
+					    game.Players.LocalPlayer.Character.Humanoid.Sit = false
+					end
+				end
+			end
+		end)
+	end)    	
     local ToggleTerrorshark = Tabs.SeaE:AddToggle("ToggleTerrorshark", {Title = "Auto Kill Terrorshark", Description = "[Beta]", Default = false })
 
     ToggleTerrorshark:OnChanged(function(Value)
@@ -4313,10 +4381,10 @@ task.delay(5,function()
                         if i then
                             b.play = function()
                             end
-                            d:Play(0.1, 0.1, 0.1)
+                            d:Play(0.01, 0.01, 0.01)
                             h(i)
                             b.play = shared.cpc
-                            wait(0.1)
+                            wait(00.1)
                             d:Stop()
                         end
                     end
@@ -4412,7 +4480,7 @@ end)
     SelectLlayers = Tabs.Player:AddToggle("SelectLlayersFlag", { Title = "Auto Kill Players selected", Default = false })
     SelectLlayers:OnChanged(function(Value)
         _G.Auto_Kill_Ply = Value
-        UsefastattackPlayers = Value
+        AttackPlaer = Value
         StopTween(_G.Auto_Kill_Ply)
     end)
     Options.SelectLlayersFlag:SetValue(false)
@@ -4428,9 +4496,8 @@ end)
                                 repeat
                                     task.wait()
                                     UsefastattackPlayers = true
-                                    DamageAura = true
-                                    NeedAttacking = true
-                                    NoAttackAnimation = true
+                                    AttackPlaer = true
+                                    Fast_Attack = true
                                     EquipWeapon(_G.SelectWeapon)
                                     AutoHaki()
                                     Click()
@@ -6834,7 +6901,7 @@ spawn(
                                 AutoHaki()
                                 EquipWeapon(_G.SelectWeapon)
                                 UsefastattackPlayers = true
-                                DamageAura = true
+                                AttackPlaer = true
                             topos(v.HumanoidRootPart.CFrame * CFrame.new(1, 1, 2))
                             v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
                             if SkillZNe then
@@ -7862,6 +7929,28 @@ local args = {[1] = "CyborgTrainer", [2] = "Buy"}
         end
     })
 
+spawn(function()
+        while task.wait() do 
+            if AttackPlaer then 
+                pcall(function()
+                    local Fastflux = getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2]
+                    Fastflux.activeController.hitboxMagnitude = 55
+                    Fastflux.activeController.timeToNextAttack = 0
+                    Fastflux.activeController.attacking = false
+                    Fastflux.activeController.increment = 1
+                    Fastflux.activeController.blocking = false
+                    Fastflux.activeController.timeToNextBlock = 0
+                    a = math.random(0,5)
+                    if a > 1 then 
+                        game:GetService "VirtualUser":CaptureController()
+                        game:GetService "VirtualUser":Button1Down(Vector2.new(50, 50))
+                    end
+                    task.wait(00.1)
+                end)
+            end
+        end
+    end)
+    
 Green:create("Loading Done (Wait 2 Second)")
 print(v)
 print(v)
