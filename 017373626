@@ -4237,7 +4237,7 @@ AttackFunction = LPH_JIT_MAX(function(typef)
             if tick() > AttackCoolDown then
                 CancelCoolDown()
             end
-            if tick() - cooldowntickFire > 0.3 then
+            if tick() - cooldowntickFire > 0.03 then
                 ac.timeToNextAttack = 0
                 ac.hitboxMagnitude = 65
                 pcall(task.spawn, ac.attack, ac)
@@ -6981,10 +6981,10 @@ spawn(function()
                                 AttackPlaer = true
                                 UsefastattackPlayers = true
                                 ClickNoCooldown = true
-                                topos(HumanoidRootPart.CFrame * CFrame.new(0, 5, 0))                                
+                                topos(v.Character.HumanoidRootPart.CFrame * CFrame.new(0,0,5))                              
                                 v.HumanoidRootPart.CanCollide = false
                                 v.Head.CanCollide = false
-                                v.HumanoidRootPart.Size = Vector3.new(100, 100, 100)
+                                v.Character.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
                                 Click()
                             until not _G.AutoKillTial or not v.Parent or v.Humanoid.Health <= 0 
                         end
