@@ -8,8 +8,7 @@ local SaveManager = loadstring(game:HttpGet(
 "https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet(
 "https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
-
-local Window = Fluent:CreateWindow({ Title = "GreenX Hub Update 1.44", SubTitle = "Owner: BreakFast", TabWidth = 160, Size = UDim2.fromOffset(530, 360), Acrylic = false, Theme = "Darker", MinimizeKey = Enum.KeyCode.End })
+local Window = Fluent:CreateWindow({ Title = "GreenX Hub Update 1.50", SubTitle = "Owner: BreakFast", TabWidth = 160, Size = UDim2.fromOffset(530, 360), Acrylic = false, Theme = "Darker", MinimizeKey = Enum.KeyCode.End })
 
 local Tabs = {
     Main = Window:AddTab({ Title = "Main", Icon = "" }),
@@ -29,7 +28,9 @@ local Tabs = {
 local Options = Fluent.Options
 --
 do
-
+        hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Death), function()end)
+        hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Respawn), function()end)
+        
 local Players = game:GetService("Players")
 local Workspace = game:GetService("Workspace")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -101,6 +102,7 @@ if game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild("ChooseT
     until game.Players.LocalPlayer.Team ~= nil and game:IsLoaded()
 end
 
+Green:create("Starting Loading")
 if game.PlaceId == 2753915549 then
     World1 = true
 elseif game.PlaceId == 4442272183 then
@@ -110,7 +112,7 @@ elseif game.PlaceId == 7449423635 then
 else
     game.Players.LocalPlayer:Kick("Unsupported Game")
 end
-Green:create("Loading Function")
+
 function CheckQuest()
     MyLevel = game:GetService("Players").LocalPlayer.Data.Level.Value
     if World1 then
@@ -1623,6 +1625,36 @@ function TP3(pos)
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
 end
 
+print("Save") 
+local foldername = "Green Hub"
+local filename = foldername.."/Setting.json"
+function saveSettings()
+    local HttpService = game:GetService("HttpService")
+    local json = HttpService:JSONEncode(_G)
+    if true then
+        if isfolder(foldername) then
+            if isfile(filename) then
+                writefile(filename, json)
+            else
+                writefile(filename, json)
+            end
+        else
+            makefolder(foldername)
+        end
+    end
+end
+------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------
+
+function loadSettings()
+    local HttpService = game:GetService("HttpService")
+    if isfolder(foldername) then
+        if isfile(filename) then
+            _G = HttpService:JSONDecode(readfile(filename))
+        end
+    end
+end
+
 spawn(function()
     game:GetService("RunService").RenderStepped:Connect(function()
         if _G.AutoClick or Fastattack then
@@ -1765,6 +1797,7 @@ spawn(function()
                 _G.Auto_God_Human or
                 _G.AutoDeathStep or
                 _G.AutoSharkman or
+                _G.Safe_Mode or
                 _G.AutoElectricClaw or
                 _G.AutoDragonTalon or
                 _G.AutoNevaSoulGuitar or
@@ -1968,6 +2001,8 @@ end)
 end
 end)
 
+loadSettings()
+
 local DiscordMy = Tabs.Main:AddParagraph({
     Title = "discord.gg/HRhHA8yuvK",
     Content = "Pls Join My Severs~-~"
@@ -1984,13 +2019,15 @@ Tabs.Main:AddButton({
 
     AntiChest = Tabs.Main:AddToggle("AntiChestFlag", { Title = "Bypass Anti Cheating", Description = "anti reset acc 50%",  Default = true })
     AntiChest:OnChanged(function(Value)
-        AntiBypass = Value      
+        AntiBypass = Value 
+        saveSettings()     
     end)
     Options.AntiChestFlag:SetValue(true)
 
     BypassTp = Tabs.Main:AddToggle("BypassTpFlag", { Title = "Bypass TP", Description = "", Default = false })
     BypassTp:OnChanged(function(x)
         BypassTP = x
+        saveSettings()
     end)
     Options.BypassTpFlag:SetValue(false)
             
@@ -2005,6 +2042,7 @@ Tabs.Main:AddButton({
 
     SelectWeapon:OnChanged(function(Value)
         _G.SelectWeapon = Value
+        saveSettings()
     end)
 
     task.spawn(function()
@@ -2041,16 +2079,16 @@ Tabs.Main:AddButton({
     SelectFarmMode:SetValue("Normal")
 
     SelectFarmMode:OnChanged(function(Value)
-        FarmMode = Value
+        FarmMode = Value        
         print(v)        
     end)
 
 
     local AutoFarm = Tabs.Main:AddToggle("AutoFarmFlag", { Title = "Stating Auto Farm", Description = "Don't hang up for too long will be reset level =(",  Default = false })
     AutoFarm:OnChanged(function(Value)
-        _G.AutoFarm = Value
-        DamageAura = Value         
+        _G.AutoFarm = Value      
         StopTween(_G.AutoFarm) 
+        saveSettings()
         print(v)      
     end)
     Options.AutoFarmFlag:SetValue(false)
@@ -2078,7 +2116,8 @@ local MasteryMode = {
    MasteryFd:OnChanged(function(Value)
         _G.AutoFarmFruitMastery = Value
           if not Fast_Attack and not DamageAura or not NeedAttacking then
-         StopTween(_G.AutoFarmFruitMastery)       
+         StopTween(_G.AutoFarmFruitMastery) 
+         saveSettings()      
         end
    end)   
    Options.FarmfruitFlag:SetValue(false)
@@ -2088,6 +2127,7 @@ local MasteryMode = {
         _G.AutoFarmFruitMastery = Value
         if not Fast_Attack and not DamageAura or not NeedAttacking then                    
            StopTween(_G.AutoFarmFruitMastery)
+           saveSettings()
         end
     end)
    Options.FarmGunFlag:SetValue(false)
@@ -2126,6 +2166,7 @@ end)
     DoughKing:OnChanged(function(Value)
         _G.Autodoughking = Value
         StopTween(_G.Autodoughking)
+        saveSettings()
         print(v)
     end)
     Options.DoughKingFlag:SetValue(false)
@@ -2182,9 +2223,9 @@ end);
                   
     AutoFarmDoughBoss = Tabs.Main:AddToggle("AutoFarmDoughBossFlag", { Title = "Auto Farm Cake Prince + Kill Dough Boss", Description = "Kill 500 Mob in cake land island else have Dough Boss and Auto kill", Default = false })
     AutoFarmDoughBoss:OnChanged(function(Value)
-        _G.AutoFarmPrince = Value
-        DamageAura = Value    
+        _G.AutoFarmPrince = Value  
         StopTween(_G.AutoFarmPrince)
+        saveSettings()
     end)
     Options.AutoFarmDoughBossFlag:SetValue(false)
 
@@ -2286,6 +2327,7 @@ local ListB = {
 
     RandomBone:OnChanged(function(Value)
 		_G.Auto_Random_Bone = Value
+		saveSettings()
     end)
 
     spawn(function()
@@ -2300,6 +2342,7 @@ Options.RandomBoneFlag:SetValue(false)
     AutoBone:OnChanged(function(Value)
         _G.Auto_Bone = Value
         StopTween(_G.Auto_Bone)
+        saveSettings()
         print(v)
     end)
     Options.AutoBoneFlag:SetValue(false)
@@ -2379,6 +2422,7 @@ end);
     ListBossNe:SetValue("Stone")
     ListBossNe:OnChanged(function(Value)
         _G.SelectBoss = Value
+        saveSettings()
     end)
     
     local FarmBosss = Tabs.Main:AddToggle("FarmBosssFlag", { Title = "Auto Farm Boss", Description = "Select Boss above to hit",  Default = false })
@@ -2386,6 +2430,7 @@ end);
 	   (game:GetService("ReplicatedStorage")).Remotes.CommF_:InvokeServer("AbandonQuest");
 	   _G.AutoFarmBoss = Value;
 	   StopTween(_G.AutoFarmBoss);
+	   saveSettings()
     end)
     Options.FarmBosssFlag:SetValue(false)
 
@@ -2393,7 +2438,8 @@ end);
     farmAllBos:OnChanged(function(Value)
 	   (game:GetService("ReplicatedStorage")).Remotes.CommF_:InvokeServer("AbandonQuest");
 	   _G.AutoFarmAllBoss = Value;
-	   StopTween(_G.AutoFarmAllBoss);
+	   StopTween(_G.AutoFarmAllBoss)
+	   saveSettings()
     end)
     Options.farmAllBosFlag:SetValue(false)
 
@@ -2536,6 +2582,7 @@ end);
    AutoSaberQuest:OnChanged(function(Value)
         _G.Auto_Saber = Value
         StopTween(_G.Auto_Saber)
+        saveSettings()
    end)
     Options.AutoSaberQuestFlag:SetValue(false)
 end
@@ -2545,6 +2592,7 @@ Tabs.Sub:AddSection("Farming Melee")
     GoodHuman = Tabs.Sub:AddToggle("GoodHumanFlag", { Title = "Auto Get Melee GoodHuman", Description = "request: 4 Melee above 400 Mastery: Superhuman, DeathStep, Electric Claw, SharkMan Karate", Default = false })
     GoodHuman:OnChanged(function(Value)
         _G.Auto_God_Human = Value
+        saveSettings()
     end)
     Options.GoodHumanFlag:SetValue(false)
 
@@ -2603,6 +2651,7 @@ end);
     DeathStep = Tabs.Sub:AddToggle("DeathStepFlag", { Title = "Auto Get Death Step V2", Description = "request: Black Leg V1 --> 450 Mastery", Default = false })
     DeathStep:OnChanged(function(Value)
         _G.AutoDeathStep = Value
+        saveSettings()
     end)
     Options.DeathStepFlag:SetValue(false)
 
@@ -2633,6 +2682,7 @@ end);
     SharkMan:OnChanged(function(Value)
         _G.AutoSharkman = Value
         StopTween(_G.AutoSharkman)
+        saveSettings()
     end)
     Options.SharkManFlag:SetValue(false)
     
@@ -2683,6 +2733,7 @@ end);
     ElectricClaw:OnChanged(function(Value)
         _G.AutoElectricClaw = Value
         StopTween(_G.AutoElectricClaw)
+        saveSettings()
     end)
     Options.ElectricClawFlag:SetValue(false)
 
@@ -2870,6 +2921,7 @@ Tabs.Sub:AddSection("Get Items")
     AutoGetHallowScythe:OnChanged(function(Value)
         _G.AutoFarmBossHallow = Value
         StopTween(_G.AutoFarmBossHallow)
+        saveSettings()
     end)
     Options.AutoGetHallowScytheFlag:SetValue(false)
 
@@ -2877,6 +2929,7 @@ Tabs.Sub:AddSection("Get Items")
     AutoSoulGui:OnChanged(function(Value)
         _G.AutoNevaSoulGuitar = Value
         StopTween(_G.AutoNevaSoulGuitar)
+        saveSettings()
     end)
     Options.AutoSoulGuiFlag:SetValue(false)
 
@@ -3072,6 +3125,7 @@ end)
     AutoYamaa:OnChanged(function(Value)
         _G.AutoYama = Value
         StopTween(_G.AutoYama)
+        saveSettings()
     end)
     Options.AutoYamaaFlag:SetValue(false)
     
@@ -3079,6 +3133,7 @@ end)
     AutoTusshita:OnChanged(function(Value)
         _G.Autotushita = Value
         StopTween(_G.Autotushita)
+        saveSettings()
     end)
     Options.AutoTusshitaFlag:SetValue(false)
     
@@ -3126,6 +3181,7 @@ Tabs.Sub:AddButton({
         _G.AutoElitehunter = Value
         StopTween(_G.AutoElitehunter)
 		game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+		saveSettings()
     end)
 Options.GreenXFlag:SetValue(false)    
     local GreenXXJ = Tabs.Sub:AddToggle("GreenXXJFlag", {Title = "Auto Elite Hunter Hop", Default = false })
@@ -3134,6 +3190,7 @@ Options.GreenXFlag:SetValue(false)
         _G.AutoEliteHunterHop = Value
         StopTween(_G.AutoEliteHunterHop)
 		game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+        saveSettings()
     end)
 Options.GreenXXJFlag:SetValue(false)
     spawn(function()
@@ -3187,6 +3244,7 @@ Tabs.Sub:AddSection("Rip_indra and Get Cdk Quest")
     GetripDraFD:OnChanged(function(Value)
         Open_Color_Haki = Value
         StopTween(Open_Color_Haki)
+        saveSettings()
     end)
     Options.GetripDraFDFlag:SetValue(false)
     
@@ -3227,6 +3285,7 @@ end);
     GetripDra:OnChanged(function(Value)
         _G.AutoDarkDagger = Value
         StopTween(_G.AutoDarkDagger)
+        saveSettings()
     end)
     Options.GetripDraFlag:SetValue(false)
     
@@ -3270,10 +3329,11 @@ spawn(function()
 	end);
 end);
     
-    GetCdkDj = Tabs.Sub:AddToggle("GetCdkDjFlag", { Title = "Complete Quest Cursed Dual Katana", Description = "Fully First you need 2 Swords : Yama , Tushita", Default = false })
+    GetCdkDj = Tabs.Sub:AddToggle("GetCdkDjFlag", { Title = "Auto Complete Quest Cursed Dual Katana", Description = "[Remake] Fully First you need 2 Swords : Yama , Tushita", Default = false })
     GetCdkDj:OnChanged(function(Value)
         Auto_Cursed_Dual_Katana = Value
         StopTween(Auto_Cursed_Dual_Katana)
+        saveSettings()
     end)
     Options.GetCdkDjFlag:SetValue(false)
 
@@ -4099,12 +4159,17 @@ local FastAttackHyper = Tabs.Settings:AddToggle("FastAttackHyperFlag", {Title = 
 FastAttackHyper:OnChanged(function(value)
     Fast_Attack = value
 	DamageAura = value
-	ClickNoCooldown = value
 	DmgAttack = not value
 	NoAttackAnimation = value
-	UsefastattackPlayers = value
+	UsefastattackPlayersGo = value
 end)
 Options.FastAttackHyperFlag:SetValue(true)
+
+local ClickerTaySi = Tabs.Settings:AddToggle("ClickerTaySi", {Title = "Clicker NoCooldown", Default = false })
+ClickerTaySi:OnChanged(function(value)
+    ClickNoCooldown = value
+end)
+Options.ClickerTaySi:SetValue(false)
 
 
 local Mouse = game:GetService("Players").LocalPlayer:GetMouse()
@@ -4113,7 +4178,7 @@ Mouse.Button1Down:Connect(function()
 		local ac = CombatFrameworkR.activeController
 		if ac and ac.equipped then
 			ac.hitboxMagnitude = 55
-			pcall(AttackFunction,1)
+			pcall(AttackFunction,3)
 		end
 	end
 end)
@@ -4131,9 +4196,9 @@ local PC = require(game.Players.LocalPlayer.PlayerScripts.CombatFramework.Partic
 local RL = require(game:GetService("ReplicatedStorage").CombatFramework.RigLib)
 local oldRL = RL.wrapAttackAnimationAsync
 
-RL.wrapAttackAnimationAsync = function(a, b, c, d, func)
+RL.wrapAttackAnimationAsync = function(a,b,c,d,func)
     if not NoAttackAnimation then
-        return oldRL(a, b, c, 60, func)
+        return oldRL(a,b,c,60,func)
     end
     local Hits = {}
     local Client = game.Players.LocalPlayer
@@ -4237,9 +4302,9 @@ AttackFunction = LPH_JIT_MAX(function(typef)
             if tick() > AttackCoolDown then
                 CancelCoolDown()
             end
-            if tick() - cooldowntickFire > 0.03 then
+            if tick() - cooldowntickFire > 0.01 then
                 ac.timeToNextAttack = 0
-                ac.hitboxMagnitude = 65
+                ac.hitboxMagnitude = 60
                 pcall(task.spawn, ac.attack, ac)
                 cooldowntickFire = tick()
             end
@@ -4248,7 +4313,7 @@ AttackFunction = LPH_JIT_MAX(function(typef)
             local REALID = AMI3 or AMI2
             AttackAnim.AnimationId = REALID
             local StartP = ac.humanoid:LoadAnimation(AttackAnim)
-            StartP:Play(0.01,0.01,0.01)
+            StartP:Play(0 ,0 ,0)
             RigEven.FireServer(RigEven, "hit", bladehit, AMI3 and 3 or 2, "")
             task.delay(0, function()
                 StartP:Stop()
@@ -4269,7 +4334,7 @@ LPH_JIT_MAX(function()
         while game:GetService("RunService").Stepped:Wait() do
             local ac = CombatFrameworkR.activeController
             if ac and ac.equipped and not CheckStun() then
-                if DamageAura and Fast_Attack then
+                if NeedAttacking and Fast_Attack then
                     task.spawn(function()
                         pcall(task.spawn, AttackFunction, 1)
                     end)
@@ -4277,13 +4342,13 @@ LPH_JIT_MAX(function()
                     task.spawn(function()
                         pcall(task.spawn, AttackFunction, 3)
                     end)
-                elseif UsefastattackPlayers and Fast_Attack then
+                elseif UsefastattackPlayersGo and Fast_Attack then
                     task.spawn(function()
                         pcall(task.spawn, AttackFunction, 2)
                     end)
-                elseif DamageAura and Fast_Attack == false then
-                    if ac.hitboxMagnitude ~= 65 then
-                        ac.hitboxMagnitude = 65
+                elseif NeedAttacking and Fast_Attack == false then
+                    if ac.hitboxMagnitude ~= 60 then
+                        ac.hitboxMagnitude = 60
                     end
                     pcall(task.spawn, ac.attack, ac)
                 end
@@ -4321,7 +4386,7 @@ LPH_NO_VIRTUALIZE(function()
 	end
 end)()
 
-task.delay(3,function() 
+--[[task.delay(1,function() 
     if hookfunction and not islclosure(hookfunction) then 
         workspace._WorldOrigin.ChildAdded:Connect(function(v)
             if v.Name =='DamageCounter' then 
@@ -4362,17 +4427,17 @@ task.delay(3,function()
                         if i then
                             b.play = function()
                             end
-                            d:Play(0.01, 0.01, 0.01)
+                            d:Play(0.1, 0.1, 0.1)
                             h(i)
                             b.play = shared.cpc
-                            wait(00.1)
+                            wait(.5)
                             d:Stop()
                         end
                     end
                 end)
             end
         end)
-        --[[
+        
             task.delay(math.random(30,60),function()
                 for i,v2 in pairs(game.ReplicatedStorage.Effect.Container:GetDescendants()) do 
                     pcall(function()
@@ -4382,9 +4447,10 @@ task.delay(3,function()
                     end)
                 end
             end)
-        ]]
+        
     end
-end)
+end)--]]
+
 
     BringMobRadius = Tabs.Settings:AddDropdown("BringMobRadius", {
         Title = "Bring Mob Radius",
@@ -4461,6 +4527,7 @@ end)
 SafeMode = Tabs.Player:AddToggle("SafeModeFlag", {Title = "Safe Mode Enable if low health", Default = false })
 SafeMode:OnChanged(function(Value)
     _G.Safe_Mode = Value
+    saveSettings()
 end)
 Options.SafeModeFlag:SetValue(false)   
 
@@ -4495,10 +4562,9 @@ end)
                             if selectedPlayer.Character.Humanoid.Health > 0 then
                                 repeat
                                     task.wait()
-                                    UsefastattackPlayers = true
+                                    UsefastattackPlayersGo = true
                                     AttackPlaer = true
-                                    Fast_Attack = true
-                                    
+                                    Fast_Attack = true                                    
                                     EquipWeapon(_G.SelectWeapon)
                                     AutoHaki()
                                     Click()
@@ -6908,7 +6974,7 @@ Tabs.Race:AddButton({
     KillPlayersTrialTest = Tabs.Race:AddToggle("KillPlayersTrialTestFlag", { Title = "Auto Kill Players Near", Default = false })
     KillPlayersTrialTest:OnChanged(function(Value)
         _G.TrialV4 = Value
-        UsefastattackPlayers = Value
+        UsefastattackPlayersGo = Value
         StopTween(_G.TrialV4)
     end)
     Options.KillPlayersTrialTestFlag:SetValue(false)
@@ -6923,7 +6989,7 @@ spawn(function()
                             repeat
                                 task.wait()
                                 DamageAura = true
-                                UsefastattackPlayers = true
+                                UsefastattackPlayersGo = true
                                 Click()
                                 AutoHaki() 
                                 topos(v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 0)) 
@@ -6932,7 +6998,7 @@ spawn(function()
                                 v.Head.CanCollide = false
                                 v.Humanoid.WalkSpeed = 0 -- Set target's walk speed to 0
                                 v.HumanoidRootPart.Size = Vector3.new(100, 100, 100)                                
-                                UsefastattackPlayers = true
+                                UsefastattackPlayersGo = true
                                 Click()
                             until _G.TrialV4 == false or v.Humanoid.Health <= 0 or not v.Parent or not v:FindFirstChild("HumanoidRootPart") or not v:FindFirstChild("Humanoid")                            
                         end
@@ -6966,7 +7032,69 @@ end)
         StopTween(_G.AutoKillTial)
     end)
     Options.KillPlayersTrialFlag:SetValue(false)
---
+
+spawn(function()
+    while wait() do 
+        pcall(function()
+            if _G.AutoKillTial then
+                for i,v in pairs(game:GetService("Workspace").Characters:GetChildren()) do
+                    if v.Name ~= game.Players.LocalPlayer.Name and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 240 then
+                        if v.Humanoid.Health > 0 then
+                            repeat wait()
+                                AutoHaki()
+                                UsefastattackPlayersGo = true                       
+                                EquipWeapon(_G.SelectWeapon)
+                                NameTarget = v.Name
+                                topos(v.HumanoidRootPart.CFrame * CFrame.new(0,5,0))
+                                v.HumanoidRootPart.CanCollide = false
+                                v.Head.CanCollide = false
+                                v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+                                if _G.XaiSkillZ then
+										game:GetService("VirtualInputManager"):SendKeyEvent(true, "Z", false, game)
+										task.wait()
+										game:GetService("VirtualInputManager"):SendKeyEvent(false, "Z", false, game)
+								end
+								if _G.XaiSkillX then
+										game:GetService("VirtualInputManager"):SendKeyEvent(true, "X", false, game)
+										task.wait()
+										game:GetService("VirtualInputManager"):SendKeyEvent(false, "X", false, game)
+								end
+								if _G.XaiSkillC then
+										game:GetService("VirtualInputManager"):SendKeyEvent(true, "C", false, game)
+										task.wait()
+										game:GetService("VirtualInputManager"):SendKeyEvent(false, "C", false, game)
+								end								
+                                Click()
+                            until not _G.AutoKillTial or not v.Parent or v.Humanoid.Health <= 0 
+                        end
+                    end
+                end
+            end
+        end)
+    end
+end)
+
+   XaiSkillZ = Tabs.Race:AddToggle("XaiSkillZFlag", { Title = "Skill Z For [Kill Player Trial]", Default = true })
+   XaiSkillZ:OnChanged(function(Value)
+        _G.XaiSkillZ = Value
+   end)
+   Options.XaiSkillZFlag:SetValue(true)
+
+   XaiSkillX = Tabs.Race:AddToggle("XaiSkillXFlag", { Title = "Skill X For [Kill Player Trial]", Default = true })
+   XaiSkillX:OnChanged(function(Value)
+        _G.XaiSkillX = Value
+   end)
+   Options.XaiSkillXFlag:SetValue(true)
+
+   XaiSkillC = Tabs.Race:AddToggle("XaiSkillCFlag", { Title = "Skill C For [Kill Player Trial]", Default = true })
+   XaiSkillC:OnChanged(function(Value)
+        _G.XaiSkillC = Value
+   end)
+   Options.XaiSkillCFlag:SetValue(true)
+   
+
+
+--[[
 spawn(function()
     while wait() do 
         pcall(function()
@@ -6979,7 +7107,7 @@ spawn(function()
                                 EquipWeapon(_G.SelectWeapon)
                                 NameTarget = v.Name
                                 AttackPlaer = true
-                                UsefastattackPlayers = true
+                                UsefastattackPlayersGo = true
                                 ClickNoCooldown = true
                                 topos(v.Character.HumanoidRootPart.CFrame * CFrame.new(0,0,5))                              
                                 v.HumanoidRootPart.CanCollide = false
@@ -6993,7 +7121,7 @@ spawn(function()
             end
         end)
     end
-end)
+end)]]
 
 --[[spawn(function()
 	while wait() do
@@ -7960,196 +8088,4 @@ spawn(function()
         end
     end)
     
-Green:create("Loading Done (Wait 2 Second)")
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v) 
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v) 
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v) 
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v) 
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v) 
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v) 
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v) 
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v) 
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v) 
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v) 
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v) 
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v) 
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v) 
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v) 
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v) 
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v) 
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)
-print(v)                  
+Green:create("Done")                 
