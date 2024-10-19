@@ -1796,6 +1796,7 @@ spawn(function()
                 _G.AutoFarmAllBoss or
                 _G.Auto_God_Human or
                 _G.AutoDeathStep or
+                _G.Auto_EvoRace or
                 _G.AutoSharkman or
                 _G.Safe_Mode or
                 _G.AutoElectricClaw or
@@ -2001,12 +2002,21 @@ end)
 end
 end)
 
-loadSettings()
+
 
 local DiscordMy = Tabs.Main:AddParagraph({
     Title = "discord.gg/HRhHA8yuvK",
     Content = "Pls Join My Severs~-~"
 })
+
+local TestThoiByEzLove = Tabs.Main:AddParagraph({
+    Title = "Discord GreenX",
+    Content = "",
+})
+
+TestThoiByEzLove:SetTitle("Follow GreenX discord for latest announcements!")
+TestThoiByEzLove:SetTitle("Join Discord GreenX Right Now")
+TestThoiByEzLove:SetTitle("what are you waiting for join now")
 
 Tabs.Main:AddButton({
 	Title = "Join discord GreenX Hub Right Now",
@@ -2139,10 +2149,10 @@ local MasteryMode = {
 --    Options.AutoAcceptQuestFlag:SetValue(false)
 
 
-Tabs.Main:AddSection("Cake Prince and Bone")
+Tabs.Main:AddSection("Cake Prince and Bone and Dough King")
 
 local Mob_Kill_Cake_Prince = Tabs.Main:AddParagraph({
-    Title = "Check Katakuri Spawn",
+    Title = "Check Katakuri Normal Spawn",
     Content = ""
 })
 
@@ -2162,6 +2172,21 @@ spawn(function()
 	end
 end)
 
+local CheckDoughKing = Tabs.Main:AddParagraph({
+    Title = "Check Dough King Spawn:",
+    Content = ""
+})
+spawn(function()
+	while wait() do
+		pcall(function()
+		   if game:GetService("ReplicatedStorage"):FindFirstChild("Dough King") or game:GetService("Workspace").Enemies:FindFirstChild("Dough King") then
+		      CheckDoughKing:SetDesc("Dough King Spawn🍡!!")
+		   else
+		      CheckDoughKing:SetDesc("Not Have Dough King in Severs🔴")
+		   end
+		end)
+    end
+end)
     DoughKing = Tabs.Main:AddToggle("DoughKingFlag", { Title = "Auto Kill Dough King", Description = "you need God's Chalice and 13 Conjured Cocoa and kill 500 mobs on cake islands and get the chocolate trophy to Summon and attack dough king", Default = false })
     DoughKing:OnChanged(function(Value)
         _G.Autodoughking = Value
@@ -3155,17 +3180,46 @@ local Elite_Hunter_Status = Tabs.Sub:AddParagraph({
     Title = "Elite Hunter Status: ",
     Content = ""
 })
+
 spawn(function()
-	while wait() do
-		pcall(function()
-			if (game:GetService("ReplicatedStorage")):FindFirstChild("Diablo") or (game:GetService("ReplicatedStorage")):FindFirstChild("Deandre") or (game:GetService("ReplicatedStorage")):FindFirstChild("Urban") or (game:GetService("Workspace")).Enemies:FindFirstChild("Diablo") or (game:GetService("Workspace")).Enemies:FindFirstChild("Deandre") or (game:GetService("Workspace")).Enemies:FindFirstChild("Urban") then
-				Elite_Hunter_Status:SetDesc("Status : Elite Spawn!");
-			else
-				Elite_Hunter_Status:SetDesc("Status : Elite Not Spawn");
-			end;
-		end);
-	end;
-end);
+    while wait() do
+        pcall(function()
+            if game:GetService("ReplicatedStorage"):FindFirstChild("Diablo") or game:GetService("ReplicatedStorage"):FindFirstChild("Deandre") or game:GetService("ReplicatedStorage"):FindFirstChild("Urban") or game:GetService("Workspace").Enemies:FindFirstChild("Diablo") or game:GetService("Workspace").Enemies:FindFirstChild("Deandre") or game:GetService("Workspace").Enemies:FindFirstChild("Urban") then
+                Elite_Hunter_Status:SetDesc("Elite Status : Spawned | Killed: "..game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("EliteHunter","Progress"))	
+            else
+                Elite_Hunter_Status:SetDesc("Elite Status : Despawned | Killed: "..game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("EliteHunter","Progress"))	
+            end
+        end)
+    end
+end)
+spawn(function()
+    while wait() do
+        pcall(function()
+            if game:GetService("ReplicatedStorage"):FindFirstChild("Diablo") or game:GetService("Workspace").Enemies:FindFirstChild("Diablo") then
+                Elite_Hunter_Status:SetTitle("Elite Hunter Name : Diablo")
+            elseif game:GetService("ReplicatedStorage"):FindFirstChild("Deandre") or game:GetService("Workspace").Enemies:FindFirstChild("Deandre") then
+                Elite_Hunter_Status:SetTitle("Elite Hunter Name : Deandre")	
+            elseif game:GetService("ReplicatedStorage"):FindFirstChild("Urban") or game:GetService("Workspace").Enemies:FindFirstChild("Urban") then
+                Elite_Hunter_Status:SetTitle("Elite Hunter Name : Urban")
+            else
+                Elite_Hunter_Status:SetTitle("Elite Hunter Name : Not Have Elite")
+            end
+        end)
+    end
+end)
+--spawn(function()
+	--while wait() do
+	--	pcall(function()
+		--	if (game:GetService("ReplicatedStorage")):FindFirstChild("Diablo") or (game:GetService("ReplicatedStorage")):FindFirstChild("Deandre") or (game:GetService("ReplicatedStorage")):FindFirstChild("Urban") or (game:GetService("Workspace")).Enemies:FindFirstChild("Diablo") or (game:GetService("Workspace")).Enemies:FindFirstChild("Deandre") or (game:GetService("Workspace")).Enemies:FindFirstChild("Urban") then
+				--Elite_Hunter_Status:SetDesc("Status : Elite Spawn!");
+				--  return "Spawn"
+		 	 --   elseif
+			--      return "Not"			    
+		--		Elite_Hunter_Status:SetDesc("Status : Elite Not Spawn");
+--			end;
+--		end);
+--	end;
+--end);
 
 
 Tabs.Sub:AddButton({
@@ -3280,6 +3334,22 @@ spawn(function()
 		end);
 	end;
 end);
+
+local CheckRip = Tabs.Sub:AddParagraph({
+    Title = "Rip Indra Status:",
+    Content = ""
+})
+spawn(function()
+	while wait() do
+		pcall(function()
+		   if game:GetService("ReplicatedStorage"):FindFirstChild("rip_indra True Form") or game:GetService("Workspace").Enemies:FindFirstChild("rip_indra") then
+		      CheckRip:SetDesc("Rip_Indra Spawn🟢!!")
+		   else
+		      CheckRip:SetDesc("Not Have Rip_Indra in Severs🔴")
+		   end
+		end)
+    end
+end)
     
     GetripDra = Tabs.Sub:AddToggle("GetripDraFlag", { Title = "Auto Kill Rip_indra", Description = "Need God's Chalice and 3 Haki Legendary Color", Default = false })
     GetripDra:OnChanged(function(Value)
@@ -4126,14 +4196,16 @@ end)
         PosY = Value
     end)
 
+
+
 local Dropdown = Tabs.Settings:AddDropdown("Dropdown", {
-        Title = "Select Fast Attck mob",
+        Title = "Select Fast Attack mob",
         Values = {"Fast Attack","Normal Attack","Low Attack","Super Fast Attack","Hyper Attack"},
         Multi = false,
         Default = 1,
     })
 
-    Dropdown:SetValue("Hyper Attack")
+    Dropdown:SetValue("Super Fast Attack")
 
     Dropdown:OnChanged(function(Memay)
         SelectFastAttackMode = Memay
@@ -4147,13 +4219,13 @@ local function ChangeModeFastAttack(SelectFastAttackMode)
 	elseif SelectFastAttackMode == "Low Attack" then
 		FireCooldown = 0.07
 	elseif SelectFastAttackMode == "Super Fast Attack" then
-		FireCooldown = 0.04
+		FireCooldown = 0.01
     elseif SelectFastAttackMode == "Hyper Attack" then
 		FireCooldown = 0
 	end
 end
 
-
+--
 
 local FastAttackHyper = Tabs.Settings:AddToggle("FastAttackHyperFlag", {Title = "Fast Attack", Default = true })
 FastAttackHyper:OnChanged(function(value)
@@ -4177,8 +4249,8 @@ Mouse.Button1Down:Connect(function()
 	if ClickNoCooldown then
 		local ac = CombatFrameworkR.activeController
 		if ac and ac.equipped then
-			ac.hitboxMagnitude = 55
-			pcall(AttackFunction,3)
+			ac.hitboxMagnitude = 60
+			pcall(AttackFunction,1)
 		end
 	end
 end)
@@ -4302,7 +4374,7 @@ AttackFunction = LPH_JIT_MAX(function(typef)
             if tick() > AttackCoolDown then
                 CancelCoolDown()
             end
-            if tick() - cooldowntickFire > 0.01 then
+            if tick() - cooldowntickFire > 00.4 then
                 ac.timeToNextAttack = 0
                 ac.hitboxMagnitude = 60
                 pcall(task.spawn, ac.attack, ac)
@@ -4490,7 +4562,7 @@ end)--]]
     for i,v in pairs(game:GetService("Players"):GetChildren()) do
         table.insert(Playerslist,v.Name)
     end
-
+--
     SelectPlayersDu = Tabs.Player:AddDropdown("SelectPlayersDu", {
         Title = "Select Players",
         Values = Playerslist,
@@ -6745,7 +6817,64 @@ spawn(function()
         end
     end
 end)
-	
+
+local EvoRace = Tabs.Race:AddToggle("EvoRace", {Title = "Fully Evo Race V2", Default = false })
+
+
+   EvoRace:OnChanged(function(Value)
+        _G.Auto_EvoRace = Value
+        StopTween(_G.Auto_EvoRace)
+   end)
+   Options.EvoRace:SetValue(false)
+   
+spawn(function()
+    pcall(function()
+        while wait(.1) do
+            if _G.Auto_EvoRace then
+                if not game:GetService("Players").LocalPlayer.Data.Race:FindFirstChild("Evolved") then
+                    if game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Alchemist","1") == 0 then
+                        topos(CFrame.new(-2779.83521, 72.9661407, -3574.02002, -0.730484903, 6.39014104e-08, -0.68292886, 3.59963224e-08, 1, 5.50667032e-08, 0.68292886, 1.56424669e-08, -0.730484903))
+                        if (Vector3.new(-2779.83521, 72.9661407, -3574.02002) - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 4 then
+                            wait(1.3)
+                            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Alchemist","2")
+                        end
+                    elseif game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Alchemist","1") == 1 then
+                        pcall(function()
+                            if not game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Flower 1") and not game:GetService("Players").LocalPlayer.Character:FindFirstChild("Flower 1") then
+                                topos(game:GetService("Workspace").Flower1.CFrame)
+                            elseif not game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Flower 2") and not game:GetService("Players").LocalPlayer.Character:FindFirstChild("Flower 2") then
+                                topos(game:GetService("Workspace").Flower2.CFrame)
+                            elseif not game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Flower 3") and not game:GetService("Players").LocalPlayer.Character:FindFirstChild("Flower 3") then
+                                if game:GetService("Workspace").Enemies:FindFirstChild("Zombie") then
+                                    for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                                        if v.Name == "Zombie" then
+                                            repeat task.wait()
+                                                AutoHaki()
+                                                EquipWeapon(_G.SelectWeapon)
+                                                topos(v.HumanoidRootPart.CFrame * Pos)
+                                                v.HumanoidRootPart.CanCollide = false
+                                                v.HumanoidRootPart.Size = Vector3.new(50,50,50)                                                
+                                                PosMon = v.HumanoidRootPart.CFrame
+                                                MonFarm = v.Name
+                                                StartBring = true
+                                            until game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Flower 3") or not v.Parent or v.Humanoid.Health <= 0 or _G.Auto_EvoRace == false
+                                            StartBring = false
+                                        end
+                                    end
+                                else
+                                    topos(CFrame.new(-5685.9233398438, 48.480125427246, -853.23724365234))
+                                end
+                            end
+                        end)
+                    elseif game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Alchemist","1") == 2 then
+                        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Alchemist","3")
+                    end
+                end
+            end
+        end
+    end)
+end)
+   		
 Tabs.Race:AddButton({
     Title = "Temple Of Time",
     Description = "",
@@ -8087,5 +8216,5 @@ spawn(function()
             end
         end
     end)
-    
+loadSettings()   
 Green:create("Done")                 
