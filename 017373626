@@ -8,7 +8,7 @@ local SaveManager = loadstring(game:HttpGet(
 "https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet(
 "https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
-local Window = Fluent:CreateWindow({ Title = "GreenX Hub Update 1.50", SubTitle = "Owner: BreakFast", TabWidth = 160, Size = UDim2.fromOffset(530, 360), Acrylic = false, Theme = "Darker", MinimizeKey = Enum.KeyCode.End })
+local Window = Fluent:CreateWindow({ Title = "GreenX Hub Update 1.61", SubTitle = "Owner: BreakFast", TabWidth = 160, Size = UDim2.fromOffset(530, 360), Acrylic = false, Theme = "Darker", MinimizeKey = Enum.KeyCode.End })
 
 local Tabs = {
     Main = Window:AddTab({ Title = "Main", Icon = "" }),
@@ -16,11 +16,11 @@ local Tabs = {
     SeaE = Window:AddTab({ Title = "Sea Event", Icon = "" }),
     Sh = Window:AddTab({ Title = "Store-Store", Icon = "" }),  
     Mas = Window:AddTab({ Title = "Mastery Settings", Icon = "" }),        
-    Settings = Window:AddTab({ Title = "Settings", Icon = "" }),
-    Race = Window:AddTab({ Title = "Update V4", Icon = "" }),
-    Player = Window:AddTab({ Title = "Player", Icon = "" }),
-    Raid = Window:AddTab({ Title = "Raids", Icon = "" }),
-    Travel = Window:AddTab({ Title = "Travel", Icon = "" }),
+    Settings = Window:AddTab({ Title = "Config Players", Icon = "" }),
+    Race = Window:AddTab({ Title = "Race V4 and Update Race", Icon = "" }),
+    Player = Window:AddTab({ Title = "PVP And Stats", Icon = "" }),
+    Raid = Window:AddTab({ Title = "Dungeon", Icon = "" }),
+    Travel = Window:AddTab({ Title = "Tweening Islands", Icon = "" }),
     Fun = Window:AddTab({ Title = "Severs Join", Icon = "" }),
     Fruit = Window:AddTab({ Title = "Devils Fruits", Icon = "" }),
 }
@@ -2151,26 +2151,6 @@ local MasteryMode = {
 
 Tabs.Main:AddSection("Cake Prince and Bone and Dough King")
 
-local Mob_Kill_Cake_Prince = Tabs.Main:AddParagraph({
-    Title = "Check Katakuri Normal Spawn",
-    Content = ""
-})
-
-spawn(function()
-	while wait() do
-		pcall(function()
-			if string.len(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("CakePrinceSpawner")) == 88 then
-				Mob_Kill_Cake_Prince:SetDesc("Kill : "..string.sub(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("CakePrinceSpawner"),39,41).."")
-			elseif string.len(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("CakePrinceSpawner")) == 87 then
-				Mob_Kill_Cake_Prince:SetDesc("Kill : "..string.sub(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("CakePrinceSpawner"),39,40).."")
-			elseif string.len(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("CakePrinceSpawner")) == 86 then
-				Mob_Kill_Cake_Prince:SetDesc("Kill : "..string.sub(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("CakePrinceSpawner"),39,39).." ")
-			else
-				Mob_Kill_Cake_Prince:SetDesc("Cake Prince : Spawning!")
-			end
-		end)
-	end
-end)
 
 local CheckDoughKing = Tabs.Main:AddParagraph({
     Title = "Check Dough King Spawn:",
@@ -2224,6 +2204,8 @@ spawn(function()
 	end;
 end);
 
+Tabs.Main:AddSection("Settings Cake Prices")
+
     local AutoDoge = Tabs.Main:AddToggle("DogeSkillFlag", { Title = "Auto Doge Skill Dough Boss", Description = "Doge Skill Boss",  Default = true })
     AutoDoge:OnChanged(function(green)
         DogeCakeSkill = green
@@ -2238,6 +2220,13 @@ end);
     end)
     Options.SummonDoughFlag:SetValue(true)
 
+    AcceptQuestv = Tabs.Main:AddToggle("AcceptQuestv", { Title = "Accept Quest Cake Prince ", Description = "and Have Cake Prince or Dough King In Sever will Teleport to and kill", Default = false })
+    AcceptQuestv:OnChanged(function(Gr)
+        _G.ReceiveQuestDough = Gr        
+        print(v)
+    end)
+    Options.AcceptQuestv:SetValue(false)
+    
         spawn(function() 
             while wait() do
             if _G.AutoSpawnCP then
@@ -2245,6 +2234,27 @@ end);
             end
             end
         end) 
+
+local Mob_Kill_Cake_Prince = Tabs.Main:AddParagraph({
+    Title = "Check Katakuri Normal Spawn",
+    Content = ""
+})
+
+spawn(function()
+	while wait() do
+		pcall(function()
+			if string.len(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("CakePrinceSpawner")) == 88 then
+				Mob_Kill_Cake_Prince:SetDesc("Kill : "..string.sub(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("CakePrinceSpawner"),39,41).."")
+			elseif string.len(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("CakePrinceSpawner")) == 87 then
+				Mob_Kill_Cake_Prince:SetDesc("Kill : "..string.sub(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("CakePrinceSpawner"),39,40).."")
+			elseif string.len(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("CakePrinceSpawner")) == 86 then
+				Mob_Kill_Cake_Prince:SetDesc("Kill : "..string.sub(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("CakePrinceSpawner"),39,39).." ")
+			else
+				Mob_Kill_Cake_Prince:SetDesc("Cake Prince : Spawning!")
+			end
+		end)
+	end
+end)
                   
     AutoFarmDoughBoss = Tabs.Main:AddToggle("AutoFarmDoughBossFlag", { Title = "Auto Farm Cake Prince + Kill Dough Boss", Description = "Kill 500 Mob in cake land island else have Dough Boss and Auto kill", Default = false })
     AutoFarmDoughBoss:OnChanged(function(Value)
@@ -2253,7 +2263,7 @@ end);
         saveSettings()
     end)
     Options.AutoFarmDoughBossFlag:SetValue(false)
-
+local CakeQuestPos = CFrame.new(-2021.32007, 37.7982254, -12028.7295, 0.957576931, -8.80302053e-08, 0.288177818, 6.9301187e-08, 1, 7.51931211e-08, -0.288177818, -5.2032135e-08, 0.957576931)    
 local CakePos = CFrame.new(-2322.144287109375, 451.0404357910156, -12415.951171875)
 spawn(function()
 	while wait() do
@@ -2328,6 +2338,69 @@ spawn(function()
 		end;
 	end;
 end);
+    spawn(function()
+        while wait() do
+            if _G.ReceiveQuestDough and _G.AutoFarmPrince and World3 and not game:GetService("ReplicatedStorage"):FindFirstChild("Cake Prince") then
+                pcall(function()
+                    local QuestTitle = game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text
+                    if not string.find(QuestTitle, "Cookie Crafter") then
+                        StartBring = false
+                        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+                    end
+                    if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
+                        StartBring = false
+                        if BypassTP then
+                        if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - CakeQuestPos.Position).Magnitude > 3500 then
+						BTP(CakeQuestPos)
+						elseif (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - CakeQuestPos.Position).Magnitude < 3500 then
+						topos(CakeQuestPos)
+						end
+					else
+						topos(CakeQuestPos)
+					end
+                    if (CakeQuestPos.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 3 then                            
+                        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest","CakeQuest1",1)
+					end
+                    elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
+                        if game:GetService("Workspace").Enemies:FindFirstChild("Cookie Crafter") or game:GetService("Workspace").Enemies:FindFirstChild("Cake Guard") or game:GetService("Workspace").Enemies:FindFirstChild("Baking Staff") or game:GetService("Workspace").Enemies:FindFirstChild("Head Baker") then
+                            for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                                if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+                                    if v.Name == "Cookie Crafter" or v.Name == "Cake Guard" or v.Name == "Baking Staff" or v.Name == "Head Baker" then
+                                        if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, "Cookie Crafter") then
+                                            repeat task.wait()
+                                                EquipWeapon(_G.SelectWeapon)
+                                                AutoHaki()
+                                                NeedAttacking = true
+                                                DamageAura = true
+                                                Fast_Attack = true                                                                                                                                          
+                                                v.HumanoidRootPart.CanCollide = false
+                                                v.Humanoid.WalkSpeed = 0
+                                                v.Head.CanCollide = false
+                                                v.HumanoidRootPart.Size = Vector3.new(50, 50, 50);
+                                                PosMon = v.HumanoidRootPart.CFrame
+                                                MonFarm = v.Name;
+                                                StartBring = true
+                                                topos(v.HumanoidRootPart.CFrame * Pos);
+                                            until not _G.AutoFarmPrince or not v.Parent or game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false or v.Humanoid.Health <= 0 or game:GetService("Workspace").Map.CakeLoaf.BigMirror.Other.Transparency == 0 or game:GetService("ReplicatedStorage"):FindFirstChild("Cake Prince [Lv. 2300] [Raid Boss]") or game:GetService("Workspace").Enemies:FindFirstChild("Cake Prince [Lv. 2300] [Raid Boss]") or KillMob == 0
+                                        else
+                                            StartBring = false
+                                            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+                                        end
+                                    end
+                                end
+                            end
+                        else
+                            StartBring = false
+                            if game:GetService("ReplicatedStorage"):FindFirstChild("Cookie Crafter") then
+                             topos(game:GetService("ReplicatedStorage"):FindFirstChild("Cookie Crafter").HumanoidRootPart.CFrame * CFrame.new(15,10,2))
+                            end
+                        end
+                    end
+                end)
+            end
+        end
+    end)
+    
 local ListB = {
 	"No Quest",
 	"Quest",
@@ -4337,7 +4410,7 @@ local AttackAnim = Instance.new("Animation")
 local AttackCoolDown = 0
 local cooldowntickFire = 0
 local MaxFire = 1000
-local FireCooldown = 0
+local FireCooldown = 00.1
 local FireL = 0
 local bladehit = {}
 
@@ -4374,7 +4447,7 @@ AttackFunction = LPH_JIT_MAX(function(typef)
             if tick() > AttackCoolDown then
                 CancelCoolDown()
             end
-            if tick() - cooldowntickFire > 00.4 then
+            if tick() - cooldowntickFire > 00.1 then
                 ac.timeToNextAttack = 0
                 ac.hitboxMagnitude = 60
                 pcall(task.spawn, ac.attack, ac)
