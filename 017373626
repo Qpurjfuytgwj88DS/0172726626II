@@ -4290,7 +4290,7 @@ local Dropdown = Tabs.Settings:AddDropdown("Dropdown", {
         Default = 1,
     })
 
-    Dropdown:SetValue("Super Fast Attack")
+    Dropdown:SetValue("Hyper Attack")
 
     Dropdown:OnChanged(function(Memay)
         SelectFastAttackMode = Memay
@@ -4429,10 +4429,10 @@ local bladehit = {}
 CancelCoolDown = LPH_JIT_MAX(function()
 	local ac = CombatFrameworkR.activeController
 	if ac and ac.equipped then
-		AttackCoolDown = tick() + (FireCooldown or 0) + ((FireL/MaxFire)*0.3)
+		AttackCoolDown = tick() + (FireCooldown or 000.1) + ((FireL/MaxFire)*0.3)
 		RigEven.FireServer(RigEven,"weaponChange",ac.currentWeaponModel.Name)
 		FireL = FireL + 1
-		task.delay((FireCooldown or 0) + ((FireL+0.4/MaxFire)*0.3),function()
+		task.delay((FireCooldown or 000.1) + ((FireL+0.4/MaxFire)*0.3),function()
 			FireL = FireL - 1
 		end)
 	end
@@ -4459,7 +4459,7 @@ AttackFunction = LPH_JIT_MAX(function(typef)
             if tick() > AttackCoolDown then
                 CancelCoolDown()
             end
-            if tick() - cooldowntickFire > 00.1 then
+            if tick() - cooldowntickFire > 0.01 then
                 ac.timeToNextAttack = 0
                 ac.hitboxMagnitude = 60
                 pcall(task.spawn, ac.attack, ac)
@@ -4495,7 +4495,7 @@ LPH_JIT_MAX(function()
                     task.spawn(function()
                         pcall(task.spawn, AttackFunction, 1)
                     end)
-                elseif DamageAura then
+                elseif DamageAura and UsefastattackPlayersGo then
                     task.spawn(function()
                         pcall(task.spawn, AttackFunction, 3)
                     end)
