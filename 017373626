@@ -10,6 +10,8 @@ local InterfaceManager = loadstring(game:HttpGet(
 "https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 local Window = Fluent:CreateWindow({ Title = "GreenX Hub Update 1.61", SubTitle = "Owner: BreakFast", TabWidth = 160, Size = UDim2.fromOffset(530, 360), Acrylic = false, Theme = "Darker", MinimizeKey = Enum.KeyCode.End })
 print("Wait Tabs")
+print("Not Value")
+   warn("CoreUi.FluentDestroys()")
 local Tabs = {
     Main = Window:AddTab({ Title = "Main", Icon = "" }),
     Sub = Window:AddTab({ Title = "Sub Farm", Icon = "" }),
@@ -928,91 +930,87 @@ function CheckQuest()
     end
 end
 
-function MaterialMon()
-    if World1 then
-        if SelectMaterial == "Angel Wings" then
-            MMon = { "God's Guard", "Shanda", "Royal Squad", "Royal Soldier", "Wysper", "Thunder God" }
-            MPos = CFrame.new(-4698, 845, -1912)
-            SP = "Default"
-            if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - Vector3.new(-4607.82275, 872.54248, -1667.55688)).Magnitude >= 10000 then
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance",
-                    Vector3.new(-4607.82275, 872.54248, -1667.55688))
-            end
-        elseif SelectMaterial == "Leather + Scrap Metal" then
-            MMon = { "Brute", "Pirate" }
-            MPos = CFrame.new(-1145, 15, 4350)
-            SP = "Default"
-        elseif SelectMaterial == "Magma Ore" then
-            MMon = { "Military Soldier", "Military Spy", "Magma Admiral" }
-            MPos = CFrame.new(-5815, 84, 8820)
-            SP = "Default"
-        elseif SelectMaterial == "Fish Tail" then
-            MMon = { "Fishman Warrior", "Fishman Commando", "Fishman Lord" }
-            MPos = CFrame.new(61123, 19, 1569)
-            SP = "Default"
-            if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - Vector3.new(61163.8515625, 5.342342376708984, 1819.7841796875)).Magnitude >= 17000 then
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance",
-                    Vector3.new(61163.8515625, 5.342342376708984, 1819.7841796875))
-            end
-        end
-    elseif World2 then
-        if SelectMaterial == "Leather + Scrap Metal" then
-            MMon = { "Marine Captain" }
-            MPos = CFrame.new(-2010.5059814453125, 73.00115966796875, -3326.620849609375)
-            SP = "Default"
-        elseif SelectMaterial == "Magma Ore" then
-            MMon = { "Magma Ninja", "Lava Pirate" }
-            MPos = CFrame.new(-5428, 78, -5959)
-            SP = "Default"
-        elseif SelectMaterial == "Ectoplasm" then
-            MMon = { "Ship Deckhand", "Ship Engineer", "Ship Steward", "Ship Officer" }
-            MPos = CFrame.new(911.35827636719, 125.95812988281, 33159.5390625)
-            SP = "Default"
-            if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - Vector3.new(61163.8515625, 5.342342376708984, 1819.7841796875)).Magnitude >= 18000 then
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance",
-                    Vector3.new(923.21252441406, 126.9760055542, 32852.83203125))
-            end
-        elseif SelectMaterial == "Mystic Droplet" then
-            MMon = { "Water Fighter", "Sea Soldier" }
-            MPos = CFrame.new(-3385, 239, -10542)
-            SP = "Default"
-        elseif SelectMaterial == "Radioactive Material" then
-            MMon = { "Factory Staff" }
-            MPos = CFrame.new(295, 73, -56)
-            SP = "Default"
-        elseif SelectMaterial == "Vampire Fang" then
-            MMon = { "Vampire" }
-            MPos = CFrame.new(-6033, 7, -1317)
-            SP = "Default"
-        end
-    elseif World3 then
-        if SelectMaterial == "Leather + Scrap Metal" then
-            MMon = { "Jungle Pirate", "Forest Pirate" }
-            MPos = CFrame.new(-11975.78515625, 331.7734069824219, -10620.0302734375)
-            SP = "Default"
-        elseif SelectMaterial == "Fish Tail" then
-            MMon = { "Fishman Raider", "Fishman Captain" }
-            MPos = CFrame.new(-10993, 332, -8940)
-            SP = "Default"
-        elseif SelectMaterial == "Conjured Cocoa" then
-            MMon = { "Chocolate Bar Battler", "Cocoa Warrior" }
-            MPos = CFrame.new(620.6344604492188, 78.93644714355469, -12581.369140625)
-            SP = "Default"
-        elseif SelectMaterial == "Dragon Scale" then
-            MMon = { "Dragon Crew Warrior", "Dragon Crew Archer" }
-            MPos = CFrame.new(6594, 383, 139)
-            SP = "Default"
-        elseif SelectMaterial == "Gunpowder" then
-            MMon = { "Pistol Billionaire" }
-            MPos = CFrame.new(-469, 74, 5904)
-            SP = "Default"
-        elseif SelectMaterial == "Mini Tusk" then
-            MMon = { "Mythological Pirate" }
-            MPos = CFrame.new(-13545, 470, -6917)
-            SP = "Default"
-        end
-    end
-end
+    function CheckMaterialMon()
+			if getgenv().SelectMatriaEzlove == "Radioactive Material" then
+				MMon = "Factory Staff"
+				MPos = CFrame.new(-507.7895202636719, 72.99479675292969, -126.45632934570312)
+				SP = "Bar"
+			elseif getgenv().SelectMatriaEzlove == "Mystic Droplet" then
+				MMon = "Water Fighter"
+				MPos = CFrame.new(-3214.218017578125, 298.69952392578125, -10543.685546875)
+				SP = "ForgottenIsland"
+			elseif getgenv().SelectMatriaEzlove == "Magma Ore" then
+				if game.PlaceId == 2753915549 then
+					MMon = "Military Spy"
+					MPos = CFrame.new(-5850.2802734375, 77.28675079345703, 8848.6748046875)
+					SP = "Magma"
+				elseif game.PlaceId == 4442272183 then
+					MMon = "Lava Pirate"
+					MPos = CFrame.new(-5234.60595703125, 51.953372955322266, -4732.27880859375)
+					SP = "CircleIslandFire"
+				end
+			elseif getgenv().SelectMatriaEzlove == "Angel Wings" then
+				MMon = "Royal Soldier"
+				MPos = CFrame.new(-7827.15625, 5606.912109375, -1705.5833740234375)
+				SP = "Sky2"
+			elseif getgenv().SelectMatriaEzlove == "Leather" then
+				if game.PlaceId == 2753915549 then
+					MMon = "Pirate"
+					MPos = CFrame.new(-1211.8792724609375, 4.787090301513672, 3916.83056640625)
+					SP = "Pirate"
+				elseif game.PlaceId == 4442272183 then
+					MMon = "Marine Captain"
+					MPos = CFrame.new(-2010.5059814453125, 73.00115966796875, -3326.620849609375)
+					SP = "Greenb"
+				elseif game.PlaceId == 7449423635 then
+					MMon = "Jungle Pirate"
+					MPos = CFrame.new(-11975.78515625, 331.7734069824219, -10620.0302734375)
+					SP = "PineappleTown"
+				end
+			elseif getgenv().SelectMatriaEzlove == "Scrap Metal" then
+				if game.PlaceId == 2753915549 then
+					MMon = "Brute"
+					MPos = CFrame.new(-1132.4202880859375, 14.844913482666016, 4293.30517578125)
+					SP = "Pirate"
+				elseif game.PlaceId == 4442272183 then
+					MMon = "Mercenary"
+					MPos = CFrame.new(-972.307373046875, 73.04473876953125, 1419.2901611328125)
+					SP = "DressTown"
+				elseif game.PlaceId == 7449423635 then
+					MMon = "Pirate Millionaire"
+					MPos = CFrame.new(-289.6311950683594, 43.8282470703125, 5583.66357421875)
+					SP = "Default"
+				end
+			elseif getgenv().SelectMatriaEzlove == "Demonic Wisp" then
+				MMon = "Demonic Soul"
+				MPos = CFrame.new(-9503.388671875, 172.139892578125, 6143.0634765625)
+				SP = "HauntedCastle"
+			elseif getgenv().SelectMatriaEzlove == "Vampire Fang" then
+				MMon = "Vampire"
+				MPos = CFrame.new(-5999.20458984375, 6.437741279602051, -1290.059326171875)
+				SP = "Graveyard"
+			elseif getgenv().SelectMatriaEzlove == "Conjured Cocoa" then
+				MMon = "Chocolate Bar Battler"
+				MPos = CFrame.new(744.7930908203125, 24.76934242248535, -12637.7255859375)
+				SP = "Chocolate"
+			elseif getgenv().SelectMatriaEzlove == "Dragon Scale" then
+				MMon = "Dragon Crew Warrior"
+				MPos = CFrame.new(5824.06982421875, 51.38640213012695, -1106.694580078125)
+				SP = "Hydra1"
+			elseif getgenv().SelectMatriaEzlove == "Gunpowder" then
+				MMon = "Pistol Billionaire"
+				MPos = CFrame.new(-379.6134338378906, 73.84449768066406, 5928.5263671875)
+				SP = "Default"
+			elseif getgenv().SelectMatriaEzlove == "Fish Tail" then
+				MMon = "Fishman Captain"
+				MPos = CFrame.new(-10961.0126953125, 331.7977600097656, -8914.29296875)
+				SP = "PineappleTown"
+			elseif getgenv().SelectMatriaEzlove == "Mini Tusk" then
+				MMon = "Mythological Pirate"
+				MPos = CFrame.new(-13516.0458984375, 469.8182373046875, -6899.16064453125)
+				SP = "BigMansion"
+			end
+		end
 
     function Hop()
         local PlaceID = game.PlaceId
@@ -2516,7 +2514,7 @@ spawn(function()
 end);
     
     ListBossNe = Tabs.Main:AddDropdown("ListBossNe", {
-        Title = "Select Material",
+        Title = "Select Boss",
         Values = tableBoss,
         Multi = false,
         Default = 1,
@@ -2610,16 +2608,13 @@ end);
 
     if World1 then
         MaterialList = {
-            "Leather + Scrap Metal", "Angel Wings", "Magma Ore", "Fish Tail"
-        }
-    elseif World2 then
+          "Magma Ore","Angel Wings","Leather","Scrap Metal","Radioactive Material"
+        } elseif World2 then
         MaterialList = {
-            "Leather + Scrap Metal", "Radioactive Material", "Ectoplasm", "Mystic Droplet", "Magma Ore", "Vampire Fang"
-        }
-    elseif World3 then
+          "Mystic Droplet","Magma Ore","Leather","Scrap Metal","Demonic Wisp","Vampire Fang","Radioactive Material,"
+        } elseif World3 then
         MaterialList = {
-            "Leather + Scrap Metal", "Demonic Wisp", "Conjured Cocoa", "Dragon Scale", "Gunpowder", "Fish Tail",
-            "Mini Tusk"
+          "Leather","Scrap Metal","Vampire Fang","Conjured Cocoa","Dragon Scale","Gunpowder","Fish Tail","Mini Tusk","Radioactive Material"
         }
     end
 
@@ -2629,17 +2624,48 @@ end);
         Multi = false,
         Default = 1,
     })
-    MaterialListMon:SetValue("Leather + Scrap Metal")
-    MaterialListMon:OnChanged(function(Value)
-        SelectMaterial = Value
+    MaterialListMon:SetValue("")
+    MaterialListMon:OnChanged(function(nah)
+        getgenv().SelectMatriaEzlove = nah
     end)
-    AutoMaterial = Tabs.Main:AddToggle("AutoMaterialFlag", { Title = "Farm Material", Default = false })
+    AutoMaterial = Tabs.Main:AddToggle("AutoMaterialFlag", { Title = "Stating Farm Material", Default = false })
     AutoMaterial:OnChanged(function(Value)
         _G.AutoMaterial = Value
         StopTween(_G.AutoMaterial)
     end)
     Options.AutoMaterialFlag:SetValue(false)
 
+    spawn(function()
+        while wait() do 
+            if _G.AutoMaterial then
+                CheckMaterialMon()
+                 pcall(function()
+                     if game:GetService("Workspace").Enemies:FindFirstChild(MMon) then
+                        for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                            if v.Name == MMon then
+                               if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+                                   repeat task.wait()
+                                        EquipWeapon(_G.SelectWeapon)
+                                        StartBring = true
+                                        PosMon = v.HumanoidRootPart.CFrame
+                                        topos(v.HumanoidRootPart.CFrame * CFrame.new(0,30,1))
+                                        NeedAttacking = true
+                                    until not _G.AutoMaterial or not v.Parent or v.Humanoid.Health <= 0
+                                    NeedAttacking = false
+                                    StartBring = false
+                                end
+                            end
+                        end
+                    else
+                    if ((MPos).Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude <= 4000 then
+						topos(MPos)
+						end
+                    end
+                 end)
+            end
+        end
+    end)    
+    
     ChestInfo = Tabs.Main:AddParagraph({
         Title = "Chest Info\n",
         Content = ""
@@ -4094,65 +4120,32 @@ game:GetService("RunService").RenderStepped:Connect(function()
 end)
 
 
-    local SailBoat = Tabs.SeaE:AddToggle("SailBoat", {Title = "Auto Driver Boat", Description = "[Not Working Wait Fix]", Default = false })
-
-    SailBoat:OnChanged(function(Value)
-        _G.SailBoat = Value
-        StopTween(_G.SailBoat)
-    end)
-
-    spawn(function()
-        while wait() do
-            pcall(function()
-                if _G.SailBoat then
-                    if not game:GetService("Workspace").Enemies:FindFirstChild("Shark") or not game:GetService("Workspace").Enemies:FindFirstChild("Terrorshark") or not game:GetService("Workspace").Enemies:FindFirstChild("Piranha") or not game:GetService("Workspace").Enemies:FindFirstChild("Fish Crew Member") then
-                        if not game:GetService("Workspace").Boats:FindFirstChild("PirateBrigade") then
-                            buyb = TPP(CFrame.new(-16927.451171875, 9.0863618850708, 433.8642883300781))
-                            if (CFrame.new(-16927.451171875, 9.0863618850708, 433.8642883300781).Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude <= 10 then
-                                if buyb then buyb:Stop() end
-                                local args = {
-                                    [1] = "BuyBoat",
-                                    [2] = "PirateBrigade"
-                                }
-    
-                                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
-                            end
-                        elseif game:GetService("Workspace").Boats:FindFirstChild("PirateBrigade") then
-                            if game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Sit == false then
-                                TPP(game:GetService("Workspace").Boats.PirateBrigade.VehicleSeat.CFrame * CFrame.new(0,1,0))
-                            else
-                                for i,v in pairs(game:GetService("Workspace").Boats:GetChildren()) do
-                                    if v.Name == "PirateBrigade" then
-                                        repeat wait()
-                                            if (CFrame.new(-17013.80078125, 10.962434768676758, 438.0169982910156).Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude <= 10 then
-                                                TweenShip(CFrame.new(-25351.8418, 10.7575607, 26430.791, -0.998379767, -0.00721008703, -0.0564435199, -0.00722159958, 0.999973953, -1.53919405e-10, 0.0564420484, 0.000407612359, -0.998405814))
-                                            elseif (CFrame.new(-25351.8418, 10.7575607, 26430.791, -0.998379767, -0.00721008703, -0.0564435199, -0.00722159958, 0.999973953, -1.53919405e-10, 0.0564420484, 0.000407612359, -0.998405814).Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude <= 10 then
-                                                TweenShip(CFrame.new(-25351.8418, 10.7575607, 26430.791, -0.998379767, -0.00721008703, -0.0564435199, -0.00722159958, 0.999973953, -1.53919405e-10, 0.0564420484, 0.000407612359, -0.998405814))
-                                            elseif (CFrame.new(-25351.8418, 10.7575607, 26430.791, -0.998379767, -0.00721008703, -0.0564435199, -0.00722159958, 0.999973953, -1.53919405e-10, 0.0564420484, 0.000407612359, -0.998405814).Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude <= 10 then
-                                                TweenShip(CFrame.new(-25351.8418, 10.7575607, 26430.791, -0.998379767, -0.00721008703, -0.0564435199, -0.00722159958, 0.999973953, -1.53919405e-10, 0.0564420484, 0.000407612359, -0.998405814))
-                                            end 
-                                        until game:GetService("Workspace").Enemies:FindFirstChild("Shark") or game:GetService("Workspace").Enemies:FindFirstChild("Terrorshark") or game:GetService("Workspace").Enemies:FindFirstChild("Piranha") or game:GetService("Workspace").Enemies:FindFirstChild("Fish Crew Member") or _G.SailBoat == false
-                                    end
+    local boatclip = Tabs.SeaE:AddToggle("boatclip", {
+    Title = "NoClip Rock",
+    Description = "",
+    Default = false
+})
+boatclip:OnChanged(function(state)
+    _G.NoClipRock = state
+end)
+            spawn(function()
+                while wait() do
+                    pcall(function()
+                    for i, boat in pairs(game:GetService("Workspace").Boats:GetChildren()) do
+                        for _, v in pairs(game:GetService("Workspace").Boats[boat.Name]:GetDescendants()) do
+                            if v:IsA("BasePart") then
+                                if _G.NoClipRock or _G.SailBoat then
+                                    v.CanCollide = false
+                                else
+                                    v.CanCollide = true
                                 end
                             end
                         end
                     end
+                    end)
                 end
             end)
-        end
-    end)
-    
-    spawn(function()
-		pcall(function()
-			while wait() do
-				if _G.SailBoat then
-					if game:GetService("Workspace").Enemies:FindFirstChild("Shark") or game:GetService("Workspace").Enemies:FindFirstChild("Terrorshark") or game:GetService("Workspace").Enemies:FindFirstChild("Piranha") or game:GetService("Workspace").Enemies:FindFirstChild("Fish Crew Member") then
-					    game.Players.LocalPlayer.Character.Humanoid.Sit = false
-					end
-				end
-			end
-		end)
-	end)    	
+                
     local ToggleTerrorshark = Tabs.SeaE:AddToggle("ToggleTerrorshark", {Title = "Auto Kill Terrorshark", Description = "[Beta]", Default = false })
 
     ToggleTerrorshark:OnChanged(function(Value)
@@ -4179,7 +4172,7 @@ end)
                                          v.Humanoid.WalkSpeed = 0
                                          v.HumanoidRootPart.Size = Vector3.new(60,60,60)
                                          if game:GetService("Workspace")["_WorldOrigin"]:FindFirstChild("Typhoon Splash") then
-                                            topos(v.HumanoidRootPart.CFrame * CFrame.new(0, 180, 0)); 
+                                            topos(v.HumanoidRootPart.CFrame * CFrame.new(0, 170, 0)); 
                                         else
                                             topos(v.HumanoidRootPart.CFrame * CFrame.new(0, 60, 0));     
                                         end                                                                                                                                                                                                                                       
@@ -4290,10 +4283,10 @@ local Dropdown = Tabs.Settings:AddDropdown("Dropdown", {
         Default = 1,
     })
 
-    Dropdown:SetValue("Hyper Attack")
+    Dropdown:SetValue("Super Fast Attack")
 
-    Dropdown:OnChanged(function(Memay)
-        SelectFastAttackMode = Memay
+    Dropdown:OnChanged(function(GreenZ)
+        SelectFastAttackMode = GreenZ
     end)
     
 local function ChangeModeFastAttack(SelectFastAttackMode)
@@ -4422,17 +4415,17 @@ local AttackAnim = Instance.new("Animation")
 local AttackCoolDown = 0
 local cooldowntickFire = 0
 local MaxFire = 1000
-local FireCooldown = 00.1
+local FireCooldown = 00.3
 local FireL = 0
 local bladehit = {}
 
 CancelCoolDown = LPH_JIT_MAX(function()
 	local ac = CombatFrameworkR.activeController
 	if ac and ac.equipped then
-		AttackCoolDown = tick() + (FireCooldown or 000.1) + ((FireL/MaxFire)*0.3)
+		AttackCoolDown = tick() + (FireCooldown or 0.4) + ((FireL/MaxFire)*0.4)
 		RigEven.FireServer(RigEven,"weaponChange",ac.currentWeaponModel.Name)
 		FireL = FireL + 1
-		task.delay((FireCooldown or 000.1) + ((FireL+0.4/MaxFire)*0.3),function()
+		task.delay((FireCooldown or 0.4) + ((FireL+0.4/MaxFire)*0.2),function()
 			FireL = FireL - 1
 		end)
 	end
@@ -4459,7 +4452,7 @@ AttackFunction = LPH_JIT_MAX(function(typef)
             if tick() > AttackCoolDown then
                 CancelCoolDown()
             end
-            if tick() - cooldowntickFire > 0.01 then
+            if tick() - cooldowntickFire > 0.05 then
                 ac.timeToNextAttack = 0
                 ac.hitboxMagnitude = 60
                 pcall(task.spawn, ac.attack, ac)
@@ -4495,11 +4488,11 @@ LPH_JIT_MAX(function()
                     task.spawn(function()
                         pcall(task.spawn, AttackFunction, 1)
                     end)
-                elseif DamageAura and UsefastattackPlayersGo then
+                elseif DamageAura and UsefastattackPlayersGo and Fast_Attack then
                     task.spawn(function()
                         pcall(task.spawn, AttackFunction, 3)
                     end)
-                elseif UsefastattackPlayersGo and Fast_Attack then
+                elseif UsefastattackPlayersGo and Fast_Attack and NeedAttacking then
                     task.spawn(function()
                         pcall(task.spawn, AttackFunction, 2)
                     end)
@@ -4642,12 +4635,14 @@ end)--]]
     end)
     Options.BringMobsFlag:SetValue(true)
 
-    Playerslist = {}
-    
-    for i,v in pairs(game:GetService("Players"):GetChildren()) do
-        table.insert(Playerslist,v.Name)
-    end
---
+
+
+------
+Playerslist = {};
+for i, v in pairs((game:GetService("Players")):GetChildren()) do
+	table.insert(Playerslist, v.Name);
+end;
+
     SelectPlayersDu = Tabs.Player:AddDropdown("SelectPlayersDu", {
         Title = "Select Players",
         Values = Playerslist,
@@ -4659,27 +4654,20 @@ end)--]]
         _G.SelectPly = Value
     end)
 
-
-    Tabs.Player:AddButton({
-    Title = "Refresh Player",
-    Description = "",
-    Callback = function()
-        Playerslist = {}
-        if not SelectedPly then
-            SelectedPly = {} 
-        end
-        if type(SelectedPly.Clear) == "function" then
-            SelectedPly:Clear()
-        end
-        
-        for i, v in pairs(game:GetService("Players"):GetChildren()) do  
-            table.insert(Playerslist, v.Name)
-            if type(SelectedPly.Add) == "function" then
-                SelectedPly:Add(v.Name)
-            end
-        end
-    end
-})
+--    Tabs.Player:AddButton({
+       -- Title = "Refresh Players",
+     --   Description = "",
+      --  Callback = function()            
+        	--Playerslist = {};
+      --  	SelectedPly:Clear();
+                --return Clear
+             --     false
+           --     end               
+        	  --  for i, v in pairs((game:GetService("Players")):GetChildren()) do
+    	---    SelectedPly:Add(v.Name);
+   -- 	end;               
+--    end  
+--})
 
 SafeMode = Tabs.Player:AddToggle("SafeModeFlag", {Title = "Safe Mode Enable if low health", Default = false })
 SafeMode:OnChanged(function(Value)
@@ -4694,7 +4682,7 @@ spawn(function()
             if _G.Safe_Mode and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
                 local humanoid = game.Players.LocalPlayer.Character.Humanoid
                 if humanoid.Health < 4500 then
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, 200, 0)
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, 700, 0)
                 end
             end
         end
@@ -6857,7 +6845,10 @@ spawn(function()
     end
 end) --]]
 
-spawn(function()
+
+
+
+--[[spawn(function()
     while task.wait() do
         if _G.AutoMaterial then
             pcall(function()
@@ -6900,7 +6891,7 @@ spawn(function()
             end)
         end
     end
-end)
+end)]]
 
 local EvoRace = Tabs.Race:AddToggle("EvoRace", {Title = "Fully Evo Race V2", Default = false })
 
@@ -8278,27 +8269,3 @@ local args = {[1] = "CyborgTrainer", [2] = "Buy"}
              game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BlackbeardReward","Refund","2")
         end
     })
-
-spawn(function()
-        while task.wait() do 
-            if AttackPlaer then 
-                pcall(function()
-                    local Fastflux = getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2]
-                    Fastflux.activeController.hitboxMagnitude = 55
-                    Fastflux.activeController.timeToNextAttack = 0
-                    Fastflux.activeController.attacking = false
-                    Fastflux.activeController.increment = 1
-                    Fastflux.activeController.blocking = false
-                    Fastflux.activeController.timeToNextBlock = 0
-                    a = math.random(0,5)
-                    if a > 1 then 
-                        game:GetService "VirtualUser":CaptureController()
-                        game:GetService "VirtualUser":Button1Down(Vector2.new(50, 50))
-                    end
-                    task.wait(00.1)
-                end)
-            end
-        end
-    end)
-loadSettings()   
-Green:create("Done")
