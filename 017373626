@@ -1466,7 +1466,7 @@ function AttackPlayersNotHeadd()
 					debug.setupvalue(U.attack, 7, a0);
 					pcall(function()
 						if PBlade.Character:FindFirstChildOfClass("Tool") and U.blades and U.blades[1] then
-							U.animator.anims.basic[1]:Play(0.01, 0.01, 0.01);
+							U.animator.anims.basic[1]:Play(0.01, 0.01, SelectFastAttackMode);
 							(game:GetService("ReplicatedStorage")).RigControllerEvent:FireServer("weaponChange", tostring(GetCurrentBlade()));
 							game.ReplicatedStorage.Remotes.Validator:FireServer(math.floor(a1 / 1099511627776 * 16777215), a0);
 							(game:GetService("ReplicatedStorage")).RigControllerEvent:FireServer("hit", V, h, "");
@@ -2396,14 +2396,14 @@ local ListB = {
     end)
 
     spawn(function()
-            while wait(00000.1) do
+            while wait(0) do
                 if _G.Auto_Random_Bone then    
                     game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Buy",1,1)
                 end
             end
     end)
 Options.RandomBoneFlag:SetValue(false)    
-    AutoBone = Tabs.Main:AddToggle("AutoBoneFlag", { Title = "Farm Bones", Description = "Farm Bone Item Bone Max 5000", Default = false })
+    AutoBone = Tabs.Main:AddToggle("AutoBoneFlag", { Title = "Auto Farm Bones", Description = "Farm Bone Item Bone Max 5000", Default = false })
     AutoBone:OnChanged(function(Value)
         _G.Auto_Bone = Value
         StopTween(_G.Auto_Bone)
@@ -4280,7 +4280,7 @@ FastAttackHyper:OnChanged(function(value)
 end)
 Options.FastAttackHyperFlag:SetValue(true)
 
-local ClickerTaySi = Tabs.Settings:AddToggle("ClickerTaySi", {Title = "Clicker NoCooldown", Default = false })
+local ClickerTaySi = Tabs.Settings:AddToggle("ClickerTaySi", {Title = "Clicker No Cooldown", Default = false })
 ClickerTaySi:OnChanged(function(value)
     ClickNoCooldown = value
 end)
@@ -4310,7 +4310,11 @@ local DmgAttack = game:GetService("ReplicatedStorage").Assets.GUI:WaitForChild("
 local PC = require(game.Players.LocalPlayer.PlayerScripts.CombatFramework.Particle)
 local RL = require(game:GetService("ReplicatedStorage").CombatFramework.RigLib)
 local oldRL = RL.wrapAttackAnimationAsync
-
+-- Tick
+local realbhit = require(game.ReplicatedStorage.CombatFramework.RigLib)
+local cooldowntickFire = tick()
+local plr = game.Players.LocalPlayer
+-- anticrash 
 RL.wrapAttackAnimationAsync = function(a,b,c,d,func)
     if not NoAttackAnimation then
         return oldRL(a,b,c,60,func)
@@ -4387,10 +4391,10 @@ local bladehit = {}
 CancelCoolDown = LPH_JIT_MAX(function()
 	local ac = CombatFrameworkR.activeController
 	if ac and ac.equipped then
-		AttackCoolDown = tick() + (FireCooldown or 0.04) + ((FireL/MaxFire)*0.4)
+		AttackCoolDown = tick() + (FireCooldown or 0.02) + ((FireL/MaxFire)*0.3)
 		RigEven.FireServer(RigEven,"weaponChange",ac.currentWeaponModel.Name)
 		FireL = FireL + 1
-		task.delay((FireCooldown or 0.04) + ((FireL+0.4/MaxFire)*0.2),function()
+		task.delay((FireCooldown or 0.02) + ((FireL+0.3/MaxFire)*0.3),function()
 			FireL = FireL - 1
 		end)
 	end
@@ -4417,9 +4421,9 @@ AttackFunction = LPH_JIT_MAX(function(typef)
             if tick() > AttackCoolDown then
                 CancelCoolDown()
             end
-            if tick() - cooldowntickFire > 0.03 then
+            if tick() - cooldowntickFire > 0.02 then
                 ac.timeToNextAttack = 0
-                ac.hitboxMagnitude = 60
+                ac.hitboxMagnitude = 55
                 pcall(task.spawn, ac.attack, ac)
                 cooldowntickFire = tick()
             end
@@ -4430,7 +4434,7 @@ AttackFunction = LPH_JIT_MAX(function(typef)
             local StartP = ac.humanoid:LoadAnimation(AttackAnim)
             StartP:Play(00.1 ,00.1 ,00.1)
             RigEven.FireServer(RigEven, "hit", bladehit, AMI3 and 3 or 2, "")
-            task.delay(0.1, function()
+            task.delay(0, function()
                 StartP:Stop()
             end)
         end
@@ -4453,7 +4457,7 @@ LPH_JIT_MAX(function()
                     task.spawn(function()
                         pcall(task.spawn, AttackFunction, 1)
                     end)
-                elseif DamageAura then
+                elseif DamageAura and UsefastattackPlayersGo then
                     task.spawn(function()
                         pcall(task.spawn, AttackFunction, 3)
                     end)
