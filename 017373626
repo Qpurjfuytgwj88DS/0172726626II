@@ -8,7 +8,7 @@ local SaveManager = loadstring(game:HttpGet(
 "https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet(
 "https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
-local Window = Fluent:CreateWindow({ Title = "GreenX Hub Update 1.61", SubTitle = "Owner: BreakFast", TabWidth = 160, Size = UDim2.fromOffset(530, 360), Acrylic = false, Theme = "Darker", MinimizeKey = Enum.KeyCode.End })
+local Window = Fluent:CreateWindow({ Title = "GreenX Hub Update 1.62", SubTitle = "Owner: BreakFast", TabWidth = 160, Size = UDim2.fromOffset(530, 360), Acrylic = false, Theme = "Darker", MinimizeKey = Enum.KeyCode.End })
 print("Wait Tabs")
 print("Not Value")
    warn("CoreUi.FluentDestroys()")
@@ -1247,44 +1247,6 @@ function slowpos(Pos)
     ):Play()
 end
 
-local stopboat = {};
-function TPB(pos, boat)
-	local tween_s = game:service("TweenService");
-	local info = TweenInfo.new(((boat.CFrame.Position - pos.Position)).Magnitude / BoatSpeed, Enum.EasingStyle.Linear);
-	tween = tween_s:Create(boat, info, {
-		CFrame = pos
-	});
-	if (boat.CFrame.Position - pos.Position).Magnitude <= 25 then
-		tween:Cancel();
-	else
-		tween:Play();
-	end;
-	function stopboat:Stop()
-		tween:Cancel();
-	end;
-	return stopboat;
-end;
-function TPP(CFgo)
-	if (game.Players.LocalPlayer.Character:WaitForChild("Humanoid")).Health <= 0 or (not (game:GetService("Players")).LocalPlayer.Character:WaitForChild("Humanoid")) then
-		tween:Cancel();
-		repeat
-			wait();
-		until (game:GetService("Players")).LocalPlayer.Character:WaitForChild("Humanoid") and ((game:GetService("Players")).LocalPlayer.Character:WaitForChild("Humanoid")).Health > 0;
-		wait(7);
-		return;
-	end;
-	local tween_s = game:service("TweenService");
-	local info = TweenInfo.new((((game:GetService("Players")).LocalPlayer.Character.HumanoidRootPart.Position - CFgo.Position)).Magnitude / TweenSpeed, Enum.EasingStyle.Linear);
-	tween = tween_s:Create(game.Players.LocalPlayer.Character.HumanoidRootPart, info, {
-		CFrame = CFgo
-	});
-	tween:Play();
-	local tweenfunc = {};
-	function tweenfunc:Stop()
-		tween:Cancel();
-	end;
-	return tweenfunc;
-end;
 
 Type = 1
 spawn(function()
@@ -1454,7 +1416,7 @@ spawn(function()
         end
     end)    
     
---[[local PBlade = game.Players.LocalPlayer;
+local PBlade = game.Players.LocalPlayer;
 local QBlade = getupvalues(require(PBlade.PlayerScripts.CombatFramework));
 local RBlade = QBlade[2];
 function GetCurrentBlade()
@@ -1468,9 +1430,9 @@ function GetCurrentBlade()
 	end;
 	return T;
 end;
-function AttackNoCD()
+function AttackPlayersNotHeadd()
 	if not _G.AutoFarmFruitMastery or (not _G.AutoFarmGunMastery) then
-		if _G.FastAttack then
+		if _G.AutoKillTial then
 			local U = RBlade.activeController;
 			for h = 1, 1 do
 				local V = (require(game.ReplicatedStorage.CombatFramework.RigLib)).getBladeHits(PBlade.Character, {
@@ -1517,7 +1479,7 @@ function AttackNoCD()
 			(game:GetService("VirtualUser")):Button1Down(Vector2.new(1280, 672));
 		end;
 	end;
-end; --]]
+end; 
 
 --[[local plr = game.Players.LocalPlayer
 local CbFw = debug.getupvalues(require(plr.PlayerScripts.CombatFramework))
@@ -2253,7 +2215,14 @@ spawn(function()
 		end)
 	end
 end)
-                  
+
+    AcceptQuestv = Tabs.Main:AddToggle("AcceptQuestv", { Title = "Accept Quest Cake Prince ", Description = "and Have Cake Prince or Dough King In Sever will Teleport to and kill", Default = false })
+    AcceptQuestv:OnChanged(function(Gr)
+        _G.ReceiveQuestDough = Gr        
+        print(v)
+    end)
+    Options.AcceptQuestv:SetValue(false)
+                      
     AutoFarmDoughBoss = Tabs.Main:AddToggle("AutoFarmDoughBossFlag", { Title = "Auto Farm Cake Prince + Kill Dough Boss", Description = "Kill 500 Mob in cake land island else have Dough Boss and Auto kill", Default = false })
     AutoFarmDoughBoss:OnChanged(function(Value)
         _G.AutoFarmPrince = Value  
@@ -2402,7 +2371,8 @@ end);
             end
         end
     end)
-    
+
+Tabs.Main:AddSection("Bone Farming")    
 local ListB = {
 	"No Quest",
 	"Quest",
@@ -4415,17 +4385,17 @@ local AttackAnim = Instance.new("Animation")
 local AttackCoolDown = 0
 local cooldowntickFire = 0
 local MaxFire = 1000
-local FireCooldown = 00.3
+local FireCooldown = 0
 local FireL = 0
 local bladehit = {}
 
 CancelCoolDown = LPH_JIT_MAX(function()
 	local ac = CombatFrameworkR.activeController
 	if ac and ac.equipped then
-		AttackCoolDown = tick() + (FireCooldown or 0.4) + ((FireL/MaxFire)*0.4)
+		AttackCoolDown = tick() + (FireCooldown or 0.05) + ((FireL/MaxFire)*0.4)
 		RigEven.FireServer(RigEven,"weaponChange",ac.currentWeaponModel.Name)
 		FireL = FireL + 1
-		task.delay((FireCooldown or 0.4) + ((FireL+0.4/MaxFire)*0.2),function()
+		task.delay((FireCooldown or 0.05) + ((FireL+0.4/MaxFire)*0.2),function()
 			FireL = FireL - 1
 		end)
 	end
@@ -4452,7 +4422,7 @@ AttackFunction = LPH_JIT_MAX(function(typef)
             if tick() > AttackCoolDown then
                 CancelCoolDown()
             end
-            if tick() - cooldowntickFire > 0.05 then
+            if tick() - cooldowntickFire > 0.03 then
                 ac.timeToNextAttack = 0
                 ac.hitboxMagnitude = 60
                 pcall(task.spawn, ac.attack, ac)
@@ -4463,9 +4433,9 @@ AttackFunction = LPH_JIT_MAX(function(typef)
             local REALID = AMI3 or AMI2
             AttackAnim.AnimationId = REALID
             local StartP = ac.humanoid:LoadAnimation(AttackAnim)
-            StartP:Play(0 ,0 ,0)
+            StartP:Play(00.1 ,00.1 ,00.1)
             RigEven.FireServer(RigEven, "hit", bladehit, AMI3 and 3 or 2, "")
-            task.delay(0, function()
+            task.delay(0.1, function()
                 StartP:Stop()
             end)
         end
@@ -4480,25 +4450,25 @@ function CheckStun()
 end
 
 LPH_JIT_MAX(function()
-    spawn(function()
-        while game:GetService("RunService").Stepped:Wait() do
-            local ac = CombatFrameworkR.activeController
-            if ac and ac.equipped and not CheckStun() then
+	spawn(function()
+		while game:GetService("RunService").Stepped:Wait() do
+			local ac = CombatFrameworkR.activeController
+			if ac and ac.equipped and not CheckStun() then
                 if NeedAttacking and Fast_Attack then
                     task.spawn(function()
                         pcall(task.spawn, AttackFunction, 1)
                     end)
-                elseif DamageAura and UsefastattackPlayersGo and Fast_Attack then
+                elseif DamageAura then
                     task.spawn(function()
                         pcall(task.spawn, AttackFunction, 3)
                     end)
-                elseif UsefastattackPlayersGo and Fast_Attack and NeedAttacking then
+                elseif UsefastattackPlayersGo and Fast_Attack then
                     task.spawn(function()
                         pcall(task.spawn, AttackFunction, 2)
                     end)
                 elseif NeedAttacking and Fast_Attack == false then
-                    if ac.hitboxMagnitude ~= 60 then
-                        ac.hitboxMagnitude = 60
+                    if ac.hitboxMagnitude ~= 55 then
+                        ac.hitboxMagnitude = 55
                     end
                     pcall(task.spawn, ac.attack, ac)
                 end
@@ -4506,7 +4476,7 @@ LPH_JIT_MAX(function()
         end
     end)
 end)()
-
+--
 LPH_NO_VIRTUALIZE(function()
 	function Click()
 		game:GetService("VirtualUser"):CaptureController()
@@ -7244,15 +7214,16 @@ spawn(function()
                 for i,v in pairs(game:GetService("Workspace").Characters:GetChildren()) do
                     if v.Name ~= game.Players.LocalPlayer.Name and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 240 then
                         if v.Humanoid.Health > 0 then
-                            repeat wait()
+                            repeat task.wait()
                                 AutoHaki()
+                                AttackPlayersNotHeadd()
                                 UsefastattackPlayersGo = true                       
                                 EquipWeapon(_G.SelectWeapon)
                                 NameTarget = v.Name
-                                topos(v.HumanoidRootPart.CFrame * CFrame.new(0,5,0))
+                                topos(v.HumanoidRootPart.CFrame * CFrame.new(0,0,5))
                                 v.HumanoidRootPart.CanCollide = false
                                 v.Head.CanCollide = false
-                                v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+                                v.HumanoidRootPart.Size = Vector3.new(55, 55, 55)
                                 if _G.XaiSkillZ then
 										game:GetService("VirtualInputManager"):SendKeyEvent(true, "Z", false, game)
 										task.wait()
