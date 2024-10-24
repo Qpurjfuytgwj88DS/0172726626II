@@ -1887,7 +1887,7 @@ spawn(function()
 				if _G.BringMonster then
 					if v.Name == MonFarm and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
 						if v.Name == "Factory Staff" then
-							if (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 500 then
+							if (v.HumanoidRootPart.Position - PosMon.Position).Magnitude <= 550 then
 								v.Head.CanCollide = false;
 								v.HumanoidRootPart.CanCollide = false;
 								v.HumanoidRootPart.Size = Vector3.new(1, 1, 1);
@@ -4384,7 +4384,7 @@ local AttackAnim = Instance.new("Animation")
 local AttackCoolDown = 0
 local cooldowntickFire = 0
 local MaxFire = 1000
-local FireCooldown = 00.3
+local FireCooldown = 00.1
 local FireL = 0
 local bladehit = {}
 
