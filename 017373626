@@ -2223,7 +2223,7 @@ end)
     end)
     Options.AcceptQuestv:SetValue(false)
                       
-    AutoFarmDoughBoss = Tabs.Main:AddToggle("AutoFarmDoughBossFlag", { Title = "Auto Farm Cake Prince + Kill Dough Boss", Description = "Kill 500 Mob in cake land island else have Dough Boss and Auto kill", Default = false })
+    AutoFarmDoughBoss = Tabs.Main:AddToggle("AutoFarmDoughBossFlag", { Title = "Auto Farm Katakuri", Description = "Kill 500 Mob in cake land island else have Dough Boss and Auto kill", Default = false })
     AutoFarmDoughBoss:OnChanged(function(Value)
         _G.AutoFarmPrince = Value  
         StopTween(_G.AutoFarmPrince)
@@ -2251,13 +2251,8 @@ spawn(function()
 									v.Humanoid.WalkSpeed = 0;
 									v.HumanoidRootPart.Size = Vector3.new(50, 50, 50);
 									if game:GetService("Workspace")["_WorldOrigin"]:FindFirstChild("Ring") or
-                                    game:GetService("Workspace")["_WorldOrigin"]:FindFirstChild("Fist") then
-                                    Green:create("Doge Skill")
-                                      wait(2)                                  
-                                    topos(v.HumanoidRootPart.CFrame * CFrame.new(0, 185, 0) * Pos)
-                                    else
-                                    Green:create("Teleport down to boss position")
-                                      wait(2)
+                                    game:GetService("Workspace")["_WorldOrigin"]:FindFirstChild("Fist") then                            
+                                    topos(v.HumanoidRootPart.CFrame * CFrame.new(0, 185, 0) * Pos)                                    
 									topos(v.HumanoidRootPart.CFrame * Pos);
 									end
 								until not _G.AutoFarmPrince or (not v.Parent) or v.Humanoid.Health <= 0;
@@ -4385,17 +4380,17 @@ local AttackAnim = Instance.new("Animation")
 local AttackCoolDown = 0
 local cooldowntickFire = 0
 local MaxFire = 1000
-local FireCooldown = 0
+local FireCooldown = 00.3
 local FireL = 0
 local bladehit = {}
 
 CancelCoolDown = LPH_JIT_MAX(function()
 	local ac = CombatFrameworkR.activeController
 	if ac and ac.equipped then
-		AttackCoolDown = tick() + (FireCooldown or 0.05) + ((FireL/MaxFire)*0.4)
+		AttackCoolDown = tick() + (FireCooldown or 0.04) + ((FireL/MaxFire)*0.4)
 		RigEven.FireServer(RigEven,"weaponChange",ac.currentWeaponModel.Name)
 		FireL = FireL + 1
-		task.delay((FireCooldown or 0.05) + ((FireL+0.4/MaxFire)*0.2),function()
+		task.delay((FireCooldown or 0.04) + ((FireL+0.4/MaxFire)*0.2),function()
 			FireL = FireL - 1
 		end)
 	end
